@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Flutter Web - Run",
+			"type": "shell",
+			"command": "flutter run -d chrome --web-renderer canvaskit",
+			"isBackground": true,
+			"problemMatcher": [
+				"$dart-build",
+				"$dart-test"
+			],
+			"group": "build"
+		}
+	]
+}

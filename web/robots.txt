@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Disallow build artifacts
+Disallow: /flutter_bootstrap.js
+Disallow: /flutter.js
+Disallow: /flutter_service_worker.js
+Disallow: /version.json
+Disallow: /canvaskit/
+
+# Sitemap location
+Sitemap: https://ksaikiran.dev/sitemap.xml

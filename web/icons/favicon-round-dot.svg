@@ -1,0 +1,8 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
+  <rect width='100%' height='100%' rx='84' fill='#2C3E50'/>
+  <g font-family='Inter, Roboto, Arial, sans-serif' font-weight='800' font-size='220' fill='#ECF0F1'>
+    <text x='50%' y='54%' dominant-baseline='middle' text-anchor='middle'>SK</text>
+  </g>
+  <!-- accent dot -->
+  <circle cx='410' cy='110' r='28' fill='#FF9800'/>
+</svg>

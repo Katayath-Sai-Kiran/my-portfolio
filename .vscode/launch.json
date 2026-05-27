@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Web - Chrome",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "deviceId": "chrome",
+            "args": [
+                "--web-port=52800",
+                "--web-experimental-hot-reload"
+            ],
+            "cwd": "${workspaceFolder}",
+            "flutterMode": "debug"
+        }
+    ]
+}
