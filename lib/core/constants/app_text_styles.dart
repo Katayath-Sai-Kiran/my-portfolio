@@ -67,6 +67,11 @@ abstract final class AppTextStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.accent,
     height: 1.5,
+    fontFeatures: [
+      const FontFeature.tabularFigures(),
+      FontFeature.proportionalFigures(),
+      FontFeature.enable('lnum'),
+    ],
   );
 
   static TextStyle get navItem => GoogleFonts.inter(

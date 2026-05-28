@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_dimensions.dart';
@@ -8,6 +9,7 @@ import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/responsive_helper.dart';
 import '../../shared/data/portfolio_data.dart';
 import '../../shared/models/portfolio_models.dart';
+import '../../shared/services/pub_dev_service.dart';
 import '../../shared/widgets/section_title.dart';
 
 class OpenSourceSection extends StatelessWidget {
@@ -105,6 +107,47 @@ class _PackageCard extends StatefulWidget {
 
 class _PackageCardState extends State<_PackageCard> {
   bool _hovered = false;
+  int? _downloads;
+  bool _loadingDownloads = false;
+  String? _packageVersion;
+
+  @override
+  void initState() {
+    super.initState();
+    _maybeFetchDownloads();
+  }
+
+  void _maybeFetchDownloads() async {
+    // If the package model already has downloads, use it.
+    if (widget.pkg.downloads != null) {
+      setState(() => _downloads = widget.pkg.downloads);
+      return;
+    }
+
+    setState(() => _loadingDownloads = true);
+    if (kDebugMode) {
+      // ignore: avoid_print
+      print('OpenSourceSection: fetching downloads for ${widget.pkg.name}');
+    }
+    final d = await PubDevService.instance.fetchDownloads(widget.pkg.name);
+    if (!mounted) return;
+    if (d != null) {
+      setState(() {
+        _downloads = d;
+        _loadingDownloads = false;
+      });
+      return;
+    }
+
+    // No downloads available — try fetching richer package info (version/published)
+    final info = await PubDevService.instance.fetchPackageInfo(widget.pkg.name);
+    if (!mounted) return;
+    setState(() {
+      _downloads = info != null ? (info['downloads'] as int?) : null;
+      _packageVersion = info != null ? (info['version'] as String?) : null;
+      _loadingDownloads = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +157,7 @@ class _PackageCardState extends State<_PackageCard> {
       child:
           AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
                 decoration: BoxDecoration(
                   color: AppColors.backgroundCard,
                   borderRadius: BorderRadius.circular(AppDimensions.cardRadius),
@@ -140,6 +183,7 @@ class _PackageCardState extends State<_PackageCard> {
                   children: [
                     // Package icon & name
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const Icon(
                           Icons.widgets_rounded,
@@ -150,6 +194,7 @@ class _PackageCardState extends State<_PackageCard> {
                         Expanded(
                           child: Text(
                             widget.pkg.name,
+                            maxLines: 2,
                             style: AppTextStyles.mono.copyWith(
                               fontSize: 12,
                               color: AppColors.textPrimary,
@@ -194,24 +239,59 @@ class _PackageCardState extends State<_PackageCard> {
                           .toList(),
                     ),
                     const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        _ActionButton(
-                          label: 'pub.dev',
-                          icon: Icons.open_in_new_rounded,
-                          onTap: () => launchUrl(Uri.parse(widget.pkg.pubUrl)),
-                          primary: true,
-                        ),
-                        if (widget.pkg.githubUrl != null) ...[
-                          const SizedBox(width: 8),
+                    IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
                           _ActionButton(
-                            label: 'Source',
-                            icon: Icons.code_rounded,
+                            label: 'pub.dev',
+                            icon: Icons.open_in_new_rounded,
                             onTap: () =>
-                                launchUrl(Uri.parse(widget.pkg.githubUrl!)),
+                                launchUrl(Uri.parse(widget.pkg.pubUrl)),
+                            primary: true,
+                          ),
+                          if (widget.pkg.githubUrl != null) ...[
+                            const SizedBox(width: 8),
+                            _ActionButton(
+                              label: 'Source',
+                              icon: Icons.code_rounded,
+                              onTap: () =>
+                                  launchUrl(Uri.parse(widget.pkg.githubUrl!)),
+                            ),
+                          ],
+
+                          const SizedBox(width: 8),
+                          const Spacer(),
+
+                          Column(
+                            children: [
+                              // Display loading, formatted downloads, or version fallback
+                              Text(
+                                (_downloads != null
+                                    ? _formatDownloads(_downloads!)
+                                    : '--'),
+                                style: AppTextStyles.mono.copyWith(
+                                  fontSize: 54,
+                                  height: 0.9,
+                                  color: AppColors.textMuted.withValues(
+                                    alpha: 0.4,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'Downloads',
+                                style: AppTextStyles.mono.copyWith(
+                                  fontSize: 12,
+                                  height: 1,
+                                  color: AppColors.textMuted.withValues(
+                                    alpha: 0.7,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
-                      ],
+                      ),
                     ),
                   ],
                 ),
@@ -220,6 +300,16 @@ class _PackageCardState extends State<_PackageCard> {
               .fadeIn(duration: 400.ms)
               .slideY(begin: 0.1, end: 0),
     );
+  }
+
+  String _formatDownloads(int value) {
+    if (value >= 1000000) {
+      return '${(value / 1000000).toStringAsFixed(1)}M';
+    }
+    if (value >= 1000) {
+      return '${(value / 1000).toStringAsFixed(1)}k';
+    }
+    return value.toString();
   }
 }
 

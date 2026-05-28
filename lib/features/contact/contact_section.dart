@@ -27,7 +27,7 @@ class ContactSection extends StatelessWidget {
     _ContactItem(
       icon: Icons.work_outline_rounded,
       label: 'LinkedIn',
-      value: 'sai-kiran-katayath',
+      value: 'Sai Kiran Katayath',
       url: AppStrings.linkedinUrl,
     ),
     _ContactItem(

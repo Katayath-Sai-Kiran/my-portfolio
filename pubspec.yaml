@@ -17,6 +17,8 @@ dependencies:
   url_launcher: ^6.3.1
   font_awesome_flutter: ^10.8.0
   visibility_detector: ^0.4.0+2
+  http: ^1.1.0
+  icon_to_text_extension_codespark: ^0.0.3
 
 dev_dependencies:
   flutter_test:

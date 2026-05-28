@@ -89,7 +89,7 @@ class _TimelineItem extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 6),
                     child: Text(
                       experience.duration,
-                      style: AppTextStyles.labelLarge,
+                      style: AppTextStyles.labelLarge.copyWith(height: 1),
                       textAlign: TextAlign.right,
                     ),
                   ),

@@ -128,72 +128,120 @@ abstract final class PortfolioData {
   // ── Open Source Packages ─────────────────────────────────────────────────
   static const List<OpenSourcePackage> packages = [
     OpenSourcePackage(
-      name: 'dual_tone_text_codespark',
-      description:
-          'Advanced dual-tone and split-color text rendering utilities with '
-          'multiline rendering support and custom visual effects.',
-      tags: ['CustomPainter', 'ShaderMask', 'Text Rendering'],
-      pubUrl: 'https://pub.dev/packages/dual_tone_text_codespark',
-      githubUrl: 'https://github.com/saikirankatayath/dual_tone_text_codespark',
-    ),
-    OpenSourcePackage(
-      name: 'rich_highlight',
-      description:
-          'Reusable inline text highlighting utilities using TextSpan-based '
-          'rendering systems.',
-      tags: ['TextSpan', 'Highlight', 'Text'],
-      pubUrl: 'https://pub.dev/packages/rich_highlight',
-      githubUrl: 'https://github.com/saikirankatayath/rich_highlight',
-    ),
-    OpenSourcePackage(
-      name: 'read_more_codespark',
-      description:
-          'Expandable text system with animations and customizable read-more '
-          'behavior.',
-      tags: ['Animation', 'Text', 'UX'],
-      pubUrl: 'https://pub.dev/packages/read_more_codespark',
-      githubUrl: 'https://github.com/saikirankatayath/read_more_codespark',
-    ),
-    OpenSourcePackage(
       name: 'text_comparison_score_codespark',
+      downloads: 662,
       description:
-          'Text similarity utility package supporting multiple comparison '
-          'algorithms and scoring systems.',
-      tags: ['Dart', 'Algorithms', 'NLP'],
+          'The TextComparisonScore package is a straightforward and efficient tool for comparing two strings and calculating their similarity score using the Levenshtein distance algorithm.',
+      tags: ['textcomparison', 'compare', 'score', 'levenshteindistance'],
       pubUrl: 'https://pub.dev/packages/text_comparison_score_codespark',
       githubUrl:
-          'https://github.com/saikirankatayath/text_comparison_score_codespark',
+          'https://github.com/Katayath-Sai-Kiran/text_comparison_score_codespark',
     ),
+
     OpenSourcePackage(
-      name: 'icon_to_text_extension_codespark',
+      downloads: 164,
+      name: 'animated_dropdown_search_codespark',
       description:
-          'Extension utilities for converting Flutter icons into reusable text '
-          'widgets and spans.',
-      tags: ['Icons', 'TextSpan', 'Extensions'],
-      pubUrl: 'https://pub.dev/packages/icon_to_text_extension_codespark',
+          'Empower your app with a sophisticated dropdown widget, featuring search and highlighting.',
+      tags: [
+        'dropdownmenu',
+        'multiselectdropdown',
+        'search',
+        'highlighting',
+        'animateddropdown',
+      ],
+      pubUrl: 'https://pub.dev/packages/animated_dropdown_search_codespark',
       githubUrl:
-          'https://github.com/saikirankatayath/icon_to_text_extension_codespark',
+          'https://github.com/Katayath-Sai-Kiran/animated_dropdown_search_codespark',
     ),
     OpenSourcePackage(
+      downloads: 137,
       name: 'advanced_text_input_formatters_codespark',
       description:
-          'Reusable advanced text input formatting utilities for Flutter '
-          'applications.',
-      tags: ['Forms', 'Input', 'Formatter'],
+          'A Flutter package with advanced custom TextInputFormatters—simulate typing, block clipboard, allow only palindromes, enforce naming conventions and more.',
+      tags: [
+        'textinput',
+        'inputformatter',
+        'validation',
+        'typing',
+        'formatting',
+      ],
       pubUrl:
           'https://pub.dev/packages/advanced_text_input_formatters_codespark',
       githubUrl:
-          'https://github.com/saikirankatayath/advanced_text_input_formatters_codespark',
+          'https://github.com/Katayath-Sai-Kiran/advanced_text_input_formatters_codespark',
     ),
     OpenSourcePackage(
-      name: 'animated_dropdown_search_codespark',
+      name: 'icon_to_text_extension_codespark',
+      downloads: 94,
       description:
-          'Animated searchable dropdown system with customizable interaction '
-          'behavior.',
-      tags: ['Animation', 'Dropdown', 'Search'],
-      pubUrl: 'https://pub.dev/packages/animated_dropdown_search_codespark',
+          'Flutter extension to render any IconData (Material or Cupertino) as Text or TextSpan for inline icons in rich text and custom layouts.',
+      tags: [
+        'icondata',
+        'icons-to-text',
+        'material-icons',
+        'inline-icons',
+        'flutter-extensions',
+      ],
+      pubUrl: 'https://pub.dev/packages/icon_to_text_extension_codespark',
       githubUrl:
-          'https://github.com/saikirankatayath/animated_dropdown_search_codespark',
+          'https://github.com/Katayath-Sai-Kiran/icon_to_text_extension_codespark',
+    ),
+    OpenSourcePackage(
+      name: 'rich_highlight_text_codespark',
+      downloads: 76,
+
+      description:
+          'Adds extension methods to highlight substrings in Text or String using Text.rich and custom styles. Simple inline highlighting with minimal code.',
+      tags: ['text', 'highlight', 'richtext', 'inline-style', 'textspan'],
+      pubUrl: 'https://pub.dev/packages/rich_highlight_text_codespark',
+      githubUrl:
+          'https://github.com/Katayath-Sai-Kiran/rich_highlight_text_codespark',
+    ),
+    OpenSourcePackage(
+      downloads: 44,
+      name: 'read_more_codespark',
+      description:
+          'Tired of truncated text? read_more_codespark offers a simple and customizable solution for displaying expandable text in your Flutter projects.',
+      tags: [],
+      pubUrl: 'https://pub.dev/packages/read_more_codespark',
+      githubUrl: 'https://github.com/Katayath-Sai-Kiran/read_more_codespark',
+    ),
+    OpenSourcePackage(
+      downloads: 41,
+      name: 'dual_tone_text_codespark',
+      description:
+          'A Flutter package to render text with sharp dual-tone color splits '
+          '—vertical, horizontal, or radial. Great for stylish titles and headers.',
+      tags: ['text', 'shader', 'custom-text', 'typography', 'dual-tone'],
+      pubUrl: 'https://pub.dev/packages/dual_tone_text_codespark',
+      githubUrl:
+          'https://github.com/Katayath-Sai-Kiran/dual_tone_text_codespark',
+    ),
+    OpenSourcePackage(
+      downloads: 41,
+      name: 'curved_text_codespark',
+      description:
+          'Render text along circular, spiral, wave, elliptical, or custom paths with full animation, interactivity, and styling.  A modern curved text widget for Flutter.',
+      tags: [
+        'curved-text',
+        'path-text',
+        'text-effects',
+        'text-animation',
+        'interactive-text',
+      ],
+      pubUrl: 'https://pub.dev/packages/curved_text_codespark',
+      githubUrl: 'https://github.com/Katayath-Sai-Kiran/curved_text_codespark',
+    ),
+    OpenSourcePackage(
+      downloads: 19,
+      name: 'text_highlight_codespark',
+      description:
+          'A Flutter package for highlighting text within a string, supporting single, multiple, and regex-based queries.',
+      tags: [],
+      pubUrl: 'https://pub.dev/packages/text_highlight_codespark',
+      githubUrl:
+          'https://github.com/Katayath-Sai-Kiran/text_highlight_codespark',
     ),
   ];
 

@@ -76,6 +76,6 @@ abstract final class AppStrings {
   static const String emailAddress = 'ksaikiran0407@gmail.com';
   static const String websiteUrl = 'https://ksaikiran.dev';
   static const String pubDevUrl =
-      'https://pub.dev/publishers/ksaikiran.tech/packages';
+      'https://pub.dev/publishers/ksaikiran.dev/packages';
   static const String resumeUrl = '';
 }

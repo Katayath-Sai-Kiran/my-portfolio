@@ -78,6 +78,7 @@ class OpenSourcePackage {
     required this.tags,
     required this.pubUrl,
     this.githubUrl,
+    this.downloads,
   });
 
   final String name;
@@ -85,6 +86,7 @@ class OpenSourcePackage {
   final List<String> tags;
   final String pubUrl;
   final String? githubUrl;
+  final int? downloads;
 }
 
 /// Technical writing article card (Technical Writing section).
