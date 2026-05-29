@@ -79,6 +79,8 @@ class OpenSourcePackage {
     required this.pubUrl,
     this.githubUrl,
     this.downloads,
+    this.version,
+    this.publishedOn,
   });
 
   final String name;
@@ -87,6 +89,8 @@ class OpenSourcePackage {
   final String pubUrl;
   final String? githubUrl;
   final int? downloads;
+  final String? version;
+  final DateTime? publishedOn;
 }
 
 /// Technical writing article card (Technical Writing section).

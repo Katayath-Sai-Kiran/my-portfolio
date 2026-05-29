@@ -126,8 +126,10 @@ abstract final class PortfolioData {
   ];
 
   // ── Open Source Packages ─────────────────────────────────────────────────
-  static const List<OpenSourcePackage> packages = [
+  static List<OpenSourcePackage> packages = [
     OpenSourcePackage(
+      version: '0.0.6',
+      publishedOn: DateTime.parse('2025-05-26'),
       name: 'text_comparison_score_codespark',
       downloads: 662,
       description:
@@ -170,6 +172,22 @@ abstract final class PortfolioData {
           'https://pub.dev/packages/advanced_text_input_formatters_codespark',
       githubUrl:
           'https://github.com/Katayath-Sai-Kiran/advanced_text_input_formatters_codespark',
+    ),
+    OpenSourcePackage(
+      downloads: 0,
+      name: 'context_extensions_codespark',
+      description:
+          'A lightweight Flutter package that provides powerful and convenient BuildContext extensions to reduce boilerplate and improve developer productivity.',
+      tags: [
+        'buildcontext',
+        'extensions',
+        'flutter',
+        'productivity',
+        'boilerplate',
+      ],
+      pubUrl: 'https://pub.dev/packages/context_extensions_codespark',
+      githubUrl:
+          'https://github.com/Katayath-Sai-Kiran/context_extensions_codespark',
     ),
     OpenSourcePackage(
       name: 'icon_to_text_extension_codespark',
