@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sai_kiran_portfolio/core/constants/app_colors.dart';
 
-import '../../features/about/about_section.dart';
-import '../../features/challenges/challenges_section.dart';
+// ...existing code...
 import '../../features/contact/contact_section.dart';
 import '../../features/engineering/engineering_section.dart';
 import '../../features/experience/experience_section.dart';
@@ -33,34 +32,25 @@ class HomePage extends StatelessWidget {
                   key: scrollProvider.sectionKeys[PortfolioSection.home],
                   child: const HeroSection(),
                 ),
-
                 SizedBox(
-                  key: scrollProvider.sectionKeys[PortfolioSection.about],
-                  child: const AboutSection(),
+                  key: scrollProvider.sectionKeys[PortfolioSection.openSource],
+                  child: const OpenSourceSection(),
+                ),
+                SizedBox(
+                  key: scrollProvider.sectionKeys[PortfolioSection.writing],
+                  child: const WritingSection(),
                 ),
                 SizedBox(
                   key: scrollProvider.sectionKeys[PortfolioSection.engineering],
                   child: const EngineeringSection(),
                 ),
                 SizedBox(
-                  key: scrollProvider.sectionKeys[PortfolioSection.challenges],
-                  child: const ChallengesSection(),
-                ),
-                SizedBox(
-                  key: scrollProvider.sectionKeys[PortfolioSection.openSource],
-                  child: const OpenSourceSection(),
-                ),
-                SizedBox(
-                  key: scrollProvider.sectionKeys[PortfolioSection.skills],
-                  child: const SkillsSection(),
-                ),
-                SizedBox(
                   key: scrollProvider.sectionKeys[PortfolioSection.experience],
                   child: const ExperienceSection(),
                 ),
                 SizedBox(
-                  key: scrollProvider.sectionKeys[PortfolioSection.writing],
-                  child: const WritingSection(),
+                  key: scrollProvider.sectionKeys[PortfolioSection.skills],
+                  child: const SkillsSection(),
                 ),
                 SizedBox(
                   key: scrollProvider.sectionKeys[PortfolioSection.contact],

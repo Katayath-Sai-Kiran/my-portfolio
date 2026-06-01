@@ -167,8 +167,6 @@ class _PubDevLink extends StatelessWidget {
 
 class _PackageCardState extends State<_PackageCard> {
   bool _hovered = false;
-  int? _downloads;
-  bool _loadingDownloads = false;
   String? _packageVersion;
   String? _published;
 
@@ -179,20 +177,16 @@ class _PackageCardState extends State<_PackageCard> {
   }
 
   Future<void> _maybeFetchDownloads() async {
-    if (widget.pkg.downloads != null) {
-      setState(() => _downloads = widget.pkg.downloads);
-      return;
-    }
+    // if (widget.pkg.downloads != null) {
+    //   setState(() => _downloads = widget.pkg.downloads);
+    //   return;
+    // }
 
-    setState(() => _loadingDownloads = true);
     try {
       final d = await PubDevService.instance.fetchDownloads(widget.pkg.name);
       if (!mounted) return;
       if (d != null) {
-        setState(() {
-          _downloads = d;
-          _loadingDownloads = false;
-        });
+        setState(() {});
         return;
       }
 
@@ -201,7 +195,7 @@ class _PackageCardState extends State<_PackageCard> {
       );
       if (!mounted) return;
       setState(() {
-        _downloads = info != null ? (info['downloads'] as int?) : null;
+        // _downloads = info != null ? (info['downloads'] as int?) : null;
         _packageVersion = info != null ? (info['version'] as String?) : null;
         if (info != null && info['published'] != null) {
           final raw = info['published'] as String?;
@@ -212,13 +206,14 @@ class _PackageCardState extends State<_PackageCard> {
         } else {
           _published = null;
         }
-        _loadingDownloads = false;
+        // _loadingDownloads = false;
       });
     } catch (err) {
-      if (kDebugMode)
+      if (kDebugMode) {
         debugPrint('PubDev fetch error for ${widget.pkg.name}: $err');
+      }
       if (!mounted) return;
-      setState(() => _loadingDownloads = false);
+      // setState(() => _loadingDownloads = false);
     }
   }
 
@@ -231,7 +226,10 @@ class _PackageCardState extends State<_PackageCard> {
         height: 240,
         child: Stack(
           clipBehavior: Clip.none,
-          children: [_buildCard(), _buildOverlay()],
+          children: [
+            _buildCard(),
+            //  _buildOverlay()
+          ],
         ),
       ),
     );
@@ -333,13 +331,9 @@ class _PackageCardState extends State<_PackageCard> {
                 Column(
                   children: [
                     Text(
-                      _loadingDownloads
-                          ? '…'
-                          : (_downloads != null
-                                ? _formatDownloads(_downloads!)
-                                : (_packageVersion != null
-                                      ? 'v$_packageVersion'
-                                      : '--')),
+                      (widget.pkg.downloads != null
+                          ? _formatDownloads(widget.pkg.downloads!)
+                          : '--'),
                       style: AppTextStyles.mono.copyWith(
                         fontSize: 54,
                         height: 0.9,
@@ -443,18 +437,6 @@ class _PackageCardState extends State<_PackageCard> {
                   ],
                 ),
                 const Spacer(),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _ActionButton(
-                        label: 'Open',
-                        icon: Icons.open_in_new_rounded,
-                        onTap: () => launchUrl(Uri.parse(widget.pkg.pubUrl)),
-                        primary: true,
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),

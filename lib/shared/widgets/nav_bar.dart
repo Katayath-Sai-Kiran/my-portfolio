@@ -12,13 +12,11 @@ class PortfolioNavBar extends StatelessWidget {
 
   static const List<(String, PortfolioSection)> _navItems = [
     (AppStrings.navHome, PortfolioSection.home),
-    (AppStrings.navAbout, PortfolioSection.about),
-    (AppStrings.navEngineering, PortfolioSection.engineering),
-    (AppStrings.navChallenges, PortfolioSection.challenges),
     (AppStrings.navOpenSource, PortfolioSection.openSource),
-    (AppStrings.navSkills, PortfolioSection.skills),
-    (AppStrings.navExperience, PortfolioSection.experience),
     (AppStrings.navWriting, PortfolioSection.writing),
+    (AppStrings.navEngineering, PortfolioSection.engineering),
+    (AppStrings.navExperience, PortfolioSection.experience),
+    (AppStrings.navSkills, PortfolioSection.skills),
     (AppStrings.navContact, PortfolioSection.contact),
   ];
 

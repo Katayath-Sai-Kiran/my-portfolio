@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 Future<void> main() async {
   final uri = Uri.parse(
-    'https://pub.dev/api/publishers/ksaikiran.tech/packages',
+    'https://pub.dev/api/publishers/ksaikiran.dev/packages',
   );
   final resp = await http.get(uri);
   if (resp.statusCode != 200) {

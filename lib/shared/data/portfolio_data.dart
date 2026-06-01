@@ -131,7 +131,7 @@ abstract final class PortfolioData {
       version: '0.0.6',
       publishedOn: DateTime.parse('2025-05-26'),
       name: 'text_comparison_score_codespark',
-      downloads: 662,
+      downloads: 712,
       description:
           'The TextComparisonScore package is a straightforward and efficient tool for comparing two strings and calculating their similarity score using the Levenshtein distance algorithm.',
       tags: ['textcomparison', 'compare', 'score', 'levenshteindistance'],
@@ -174,7 +174,7 @@ abstract final class PortfolioData {
           'https://github.com/Katayath-Sai-Kiran/advanced_text_input_formatters_codespark',
     ),
     OpenSourcePackage(
-      downloads: 0,
+      downloads: 23,
       name: 'context_extensions_codespark',
       description:
           'A lightweight Flutter package that provides powerful and convenient BuildContext extensions to reduce boilerplate and improve developer productivity.',
@@ -206,6 +206,26 @@ abstract final class PortfolioData {
           'https://github.com/Katayath-Sai-Kiran/icon_to_text_extension_codespark',
     ),
     OpenSourcePackage(
+      name: 'date_formatter_codespark',
+      downloads: 51,
+      description:
+          'A Flutter package for formatting dates with various patterns and locales.',
+      tags: ['date', 'formatter', 'flutter', 'localization', 'datetime'],
+      pubUrl: 'https://pub.dev/packages/date_formatter_codespark',
+      githubUrl:
+          'https://github.com/Katayath-Sai-Kiran/date_formatter_codespark',
+    ),
+    OpenSourcePackage(
+      name: 'internet_quality_codespark',
+      downloads: 95,
+      description:
+          'A Flutter package to measure and display internet connection quality in real-time.',
+      tags: ['internet', 'connectivity', 'network', 'flutter', 'quality'],
+      pubUrl: 'https://pub.dev/packages/internet_quality_codespark',
+      githubUrl:
+          'https://github.com/Katayath-Sai-Kiran/internet_quality_codespark',
+    ),
+    OpenSourcePackage(
       name: 'rich_highlight_text_codespark',
       downloads: 76,
 
@@ -217,7 +237,7 @@ abstract final class PortfolioData {
           'https://github.com/Katayath-Sai-Kiran/rich_highlight_text_codespark',
     ),
     OpenSourcePackage(
-      downloads: 44,
+      downloads: 43,
       name: 'read_more_codespark',
       description:
           'Tired of truncated text? read_more_codespark offers a simple and customizable solution for displaying expandable text in your Flutter projects.',
@@ -226,7 +246,7 @@ abstract final class PortfolioData {
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/read_more_codespark',
     ),
     OpenSourcePackage(
-      downloads: 41,
+      downloads: 47,
       name: 'dual_tone_text_codespark',
       description:
           'A Flutter package to render text with sharp dual-tone color splits '
@@ -237,7 +257,7 @@ abstract final class PortfolioData {
           'https://github.com/Katayath-Sai-Kiran/dual_tone_text_codespark',
     ),
     OpenSourcePackage(
-      downloads: 41,
+      downloads: 43,
       name: 'curved_text_codespark',
       description:
           'Render text along circular, spiral, wave, elliptical, or custom paths with full animation, interactivity, and styling.  A modern curved text widget for Flutter.',
@@ -252,7 +272,7 @@ abstract final class PortfolioData {
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/curved_text_codespark',
     ),
     OpenSourcePackage(
-      downloads: 19,
+      downloads: 18,
       name: 'text_highlight_codespark',
       description:
           'A Flutter package for highlighting text within a string, supporting single, multiple, and regex-based queries.',

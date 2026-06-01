@@ -14,7 +14,7 @@ abstract final class AppStrings {
   static const String heroName = 'Sai Kiran Katayath';
   static const String heroTitle = 'Flutter Engineer & Open Source Maintainer';
   static const String heroSubtitle =
-      'Building rendering systems, developer tooling, and scalable Flutter utilities.';
+      'Flutter Engineer building practical tools, packages, and developer experiences.';
   static const String heroCta = 'View Packages';
   static const String heroCtaGithub = 'GitHub';
   static const String heroCtaContact = 'Contact';
@@ -70,7 +70,7 @@ abstract final class AppStrings {
 
   // Social & personal links
   static const String siteUrl = 'https://ksaikiran.dev';
-  static const String githubUrl = 'https://github.com/saikirankatayath';
+  static const String githubUrl = 'https://github.com/Katayath-Sai-Kiran';
   static const String linkedinUrl =
       'https://www.linkedin.com/in/sai-kiran-katayath-6687941a5/';
   static const String emailAddress = 'ksaikiran0407@gmail.com';
