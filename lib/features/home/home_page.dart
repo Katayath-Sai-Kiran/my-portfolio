@@ -37,10 +37,6 @@ class HomePage extends StatelessWidget {
                   child: const OpenSourceSection(),
                 ),
                 SizedBox(
-                  key: scrollProvider.sectionKeys[PortfolioSection.writing],
-                  child: const WritingSection(),
-                ),
-                SizedBox(
                   key: scrollProvider.sectionKeys[PortfolioSection.engineering],
                   child: const EngineeringSection(),
                 ),
@@ -51,6 +47,10 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   key: scrollProvider.sectionKeys[PortfolioSection.skills],
                   child: const SkillsSection(),
+                ),
+                SizedBox(
+                  key: scrollProvider.sectionKeys[PortfolioSection.writing],
+                  child: const WritingSection(),
                 ),
                 SizedBox(
                   key: scrollProvider.sectionKeys[PortfolioSection.contact],
@@ -110,28 +110,28 @@ class _FloatingHelpersState extends State<_FloatingHelpers> {
           AnimatedScale(
             duration: const Duration(milliseconds: 250),
             scale: _showFab ? 1 : 0,
-            child: FloatingActionButton(
-              backgroundColor: AppColors.accentSecondary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
-              ),
-              heroTag: 'scroll_to_top',
-              onPressed: () {
-                _scrollProvider.scrollController.animateTo(
-                  0,
-                  duration: const Duration(milliseconds: 600),
-                  curve: Curves.easeInOut,
-                );
-                _scrollProvider.setActiveSection(PortfolioSection.home);
-              },
-              mini: true,
-              elevation: 6,
-              tooltip: 'Back to top',
-              child: const Icon(
-                Icons.arrow_upward_rounded,
-                color: AppColors.backgroundDark,
-              ),
-            ),
+            child: Builder(builder: (ctx) {
+              final c = PortfolioColors.of(ctx);
+              return FloatingActionButton(
+                backgroundColor: c.orange,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                heroTag: 'scroll_to_top',
+                onPressed: () {
+                  _scrollProvider.scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 600),
+                    curve: Curves.easeInOut,
+                  );
+                  _scrollProvider.setActiveSection(PortfolioSection.home);
+                },
+                mini: true,
+                elevation: 6,
+                tooltip: 'Back to top',
+                child: Icon(Icons.arrow_upward_rounded, color: c.background),
+              );
+            }),
           ),
         ],
       ),

@@ -9,10 +9,12 @@ class PortfolioFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = PortfolioColors.of(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
-      decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: AppColors.border)),
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: c.border)),
       ),
       child: Column(
         children: [
@@ -21,12 +23,12 @@ class PortfolioFooter extends StatelessWidget {
               children: [
                 TextSpan(
                   text: 'Designed & Built by ',
-                  style: AppTextStyles.bodyMedium,
+                  style: AppTextStyles.bodyMedium.copyWith(color: c.textMuted),
                 ),
                 TextSpan(
                   text: AppStrings.heroName,
                   style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.primary,
+                    color: c.accent,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -36,7 +38,7 @@ class PortfolioFooter extends StatelessWidget {
           const SizedBox(height: AppDimensions.spacingSm),
           Text(
             '© ${DateTime.now().year} All rights reserved.',
-            style: AppTextStyles.labelLarge,
+            style: AppTextStyles.labelLarge.copyWith(color: c.textMuted),
           ),
         ],
       ),

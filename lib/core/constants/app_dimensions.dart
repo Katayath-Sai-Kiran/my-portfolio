@@ -1,6 +1,7 @@
 abstract final class AppDimensions {
   // Breakpoints
   static const double mobileBreakpoint = 600;
+  static const double mediumBreakpoint = 900;
   static const double tabletBreakpoint = 1024;
 
   // Spacing
@@ -14,8 +15,10 @@ abstract final class AppDimensions {
 
   // Section padding
   static const double sectionPaddingHorizontalDesktop = 120;
+  static const double sectionPaddingHorizontalTablet = 60;
   static const double sectionPaddingHorizontalMobile = 24;
-  static const double sectionPaddingVertical = 80;
+  static const double sectionPaddingVertical = 100;
+  static const double sectionPaddingVerticalMobile = 64;
 
   // NavBar
   static const double navBarHeight = 70;

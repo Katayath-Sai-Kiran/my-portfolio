@@ -46,6 +46,8 @@ class EngineeringProject {
     required this.title,
     required this.description,
     required this.tags,
+    this.category,
+    this.bullets,
     this.githubUrl,
     this.liveUrl,
   });
@@ -53,6 +55,8 @@ class EngineeringProject {
   final String title;
   final String description;
   final List<String> tags;
+  final String? category;
+  final List<String>? bullets;
   final String? githubUrl;
   final String? liveUrl;
 }
@@ -70,7 +74,7 @@ class ChallengeModel {
   final List<String> technologies;
 }
 
-/// Open-source package card (Open Source Ecosystem section).
+/// Open-source package card.
 class OpenSourcePackage {
   const OpenSourcePackage({
     required this.name,
@@ -81,16 +85,38 @@ class OpenSourcePackage {
     this.downloads,
     this.version,
     this.publishedOn,
+    this.tagline,
+    this.problem,
+    this.relatedPackages = const [],
   });
 
   final String name;
+
+  /// Full narrative description — the "why I built this" story.
   final String description;
+
+  /// Short one-liner used as the hero subtitle on the detail page.
+  final String? tagline;
+
+  /// The specific problem this package was built to solve.
+  final String? problem;
+
   final List<String> tags;
   final String pubUrl;
   final String? githubUrl;
   final int? downloads;
   final String? version;
   final DateTime? publishedOn;
+
+  /// Names of related packages from this publisher.
+  final List<String> relatedPackages;
+
+  /// URL-safe slug derived from the package name.
+  String get slug => name.replaceAll('_', '-');
+
+  /// Display name: strips the `_codespark` suffix for cleaner headings.
+  String get displayName =>
+      name.replaceAll('_codespark', '').replaceAll('_', ' ').trim();
 }
 
 /// Technical writing article card (Technical Writing section).

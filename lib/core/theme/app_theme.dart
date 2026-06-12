@@ -1,71 +1,50 @@
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
 
 final class AppTheme {
   const AppTheme._();
 
-  static ThemeData get dark => ThemeData(
-    useMaterial3: true,
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: AppColors.backgroundDark,
-    colorScheme: const ColorScheme.dark(
-      primary: AppColors.primary,
-      secondary: AppColors.accentSecondary,
-      surface: AppColors.backgroundCard,
-      error: AppColors.error,
-      onPrimary: AppColors.textPrimary,
-      onSurface: AppColors.textPrimary,
-    ),
-    textTheme: TextTheme(
-      displayLarge: AppTextStyles.displayLarge,
-      displayMedium: AppTextStyles.displayMedium,
-      headlineLarge: AppTextStyles.headlineLarge,
-      headlineMedium: AppTextStyles.headlineMedium,
-      titleLarge: AppTextStyles.titleLarge,
-      bodyLarge: AppTextStyles.bodyLarge,
-      bodyMedium: AppTextStyles.bodyMedium,
-      labelLarge: AppTextStyles.labelLarge,
-    ),
-    dividerTheme: const DividerThemeData(
-      color: AppColors.divider,
-      thickness: 1,
-    ),
-    cardTheme: CardThemeData(
-      color: AppColors.backgroundCard,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: AppColors.border),
+  static ThemeData get dark => _build(Brightness.dark, AppColors.dark);
+  static ThemeData get light => _build(Brightness.light, AppColors.light);
+
+  static ThemeData _build(Brightness brightness, PortfolioColors c) {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: brightness,
+      scaffoldBackgroundColor: c.background,
+      colorScheme: ColorScheme(
+        brightness: brightness,
+        primary: c.accent,
+        onPrimary: Colors.white,
+        secondary: c.orange,
+        onSecondary: Colors.white,
+        error: const Color(0xFFEF4444),
+        onError: Colors.white,
+        surface: c.surface,
+        onSurface: c.textPrimary,
+        outline: c.border,
       ),
-    ),
-    chipTheme: ChipThemeData(
-      backgroundColor: AppColors.backgroundCardLight,
-      labelStyle: AppTextStyles.bodyMedium.copyWith(
-        color: AppColors.textSecondary,
-        fontSize: 12,
+      dividerTheme: DividerThemeData(color: c.border, thickness: 1),
+      cardTheme: CardThemeData(
+        color: c.surface,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: c.border),
+        ),
       ),
-      side: const BorderSide(color: AppColors.border),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: AppColors.backgroundCard,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.border),
+      chipTheme: ChipThemeData(
+        backgroundColor: c.accentBg,
+        side: BorderSide(color: c.border),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.border),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: c.surface,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
       ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.primary, width: 2),
-      ),
-      labelStyle: AppTextStyles.bodyMedium,
-      hintStyle: AppTextStyles.labelLarge,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-    ),
-  );
+      iconTheme: IconThemeData(color: c.textMuted),
+    );
+  }
 }

@@ -69,12 +69,12 @@ abstract final class AppStrings {
   static const String contactSubtitle = "Let's build something together.";
 
   // Social & personal links
-  static const String siteUrl = 'https://ksaikiran.dev';
+  static const String siteUrl = 'https://ksaikiran.tech/';
   static const String githubUrl = 'https://github.com/Katayath-Sai-Kiran';
   static const String linkedinUrl =
       'https://www.linkedin.com/in/sai-kiran-katayath-6687941a5/';
   static const String emailAddress = 'ksaikiran0407@gmail.com';
-  static const String websiteUrl = 'https://ksaikiran.dev';
+  static const String websiteUrl = 'https://ksaikiran.tech/';
   static const String pubDevUrl =
       'https://pub.dev/publishers/ksaikiran.dev/packages';
   static const String resumeUrl = '';
