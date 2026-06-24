@@ -143,6 +143,294 @@ abstract final class PortfolioData {
 
   // ── Open Source Packages ─────────────────────────────────────────────────
   static List<OpenSourcePackage> packages = [
+    // ── On-Device AI set ────────────────────────────────────────────────────
+    OpenSourcePackage(
+      name: 'ai_core_codespark',
+      category: PackageCategory.ai,
+      status: PackageStatus.live,
+      version: '0.1.1',
+      publishedOn: DateTime.parse('2026-06-24'),
+      tagline: 'On-device text embeddings for Flutter — offline, no API keys.',
+      problem:
+          'Bringing "AI" into a Flutter app meant a cloud API — keys, latency, '
+          'per-call cost, and user data leaving the device. The on-device '
+          'options were worse: download the model by hand, or bring your own '
+          'vectors. There was no batteries-included local embedding engine.',
+      description:
+          'The local AI engine the codespark family is built on. It turns text '
+          'into vectors entirely on-device using a quantized MiniLM ONNX model, '
+          'with a WordPiece tokenizer, cosine similarity, and a vector store '
+          'included — no OpenAI, Gemini, Ollama, or server required.',
+      tags: ['embeddings', 'onnx', 'semantic-search', 'nlp', 'on-device'],
+      pubUrl: 'https://pub.dev/packages/ai_core_codespark',
+      githubUrl: 'https://github.com/Katayath-Sai-Kiran/ai_core_codespark',
+      relatedPackages: ['semantic_search_codespark', 'smart_sort_codespark'],
+      caseStudy: CaseStudy(
+        summary:
+            'The honest build log of getting real AI to run on a Flutter '
+            'device — the decisions, the dead ends, the one genuine panic, and '
+            'the pivots that turned a vague idea into a 160/160 package.',
+        highlights: [
+          '160 / 160 pub points',
+          'Tokenizer verified byte-for-byte vs HuggingFace',
+          'int8 ≈ fp32 at cosine 0.99',
+          '~23 MB model, auto-downloaded & cached',
+          'Verified end-to-end on a real device',
+        ],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.decision,
+            heading: 'Ship one engine, not a framework',
+            body:
+                'The original plan was a whole suite of AI packages. I stepped '
+                'back and made the first real decision: prove ONE thing works '
+                'end-to-end before building any framework. Validation beats '
+                'architecture when you don\'t yet know that anyone wants it.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.setback,
+            heading: 'Killing the "tiny bundled model" dream',
+            body:
+                'I wanted a small model baked right into the package. Reality '
+                'check: the smallest genuinely useful transformer is about '
+                '23 MB quantized — there is no 10 MB version. So I dropped '
+                'bundling entirely and committed to downloading the model once, '
+                'on first run.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.decision,
+            heading: 'Download and verify — not bundle, not curl',
+            body:
+                'Two existing packages framed the choice: one bundles the model '
+                '(bloating every app build), another makes you curl it into an '
+                'assets folder by hand. I chose a third path — auto-download on '
+                'first launch, verify with a SHA-256 checksum, then cache it. '
+                'Lean binary, zero manual setup, and the URL stays overridable '
+                'for air-gapped installs.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.problem,
+            heading: 'The tokenizer was the actual project',
+            body:
+                'Everyone assumes the model is the hard part. It isn\'t — it\'s '
+                'the easy 80%. The hard 20% is a pure-Dart WordPiece tokenizer '
+                'that matches HuggingFace byte-for-byte: accent stripping, CJK '
+                'spacing, punctuation rules. Get one subword wrong and every '
+                'embedding is silently corrupted — no error, just quietly wrong '
+                'results everywhere downstream.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.setback,
+            heading: 'Letting the model tell the truth',
+            body:
+                'Before writing any UI, I probed the demo queries against the '
+                'real model. "car" → "automobile" (0.87) and "doctor" → '
+                '"physician" nailed it. But "flutter state management" → '
+                '"riverpod" scored 0.11 — dead last, below random words. The '
+                'model simply doesn\'t know niche jargon. So I cut that demo and '
+                'kept the whole package honest about where semantic search '
+                'actually works.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.problem,
+            heading: 'The 0.14 cosine red herring',
+            body:
+                'The int8 model looked broken — its embeddings scored 0.14 '
+                'against the reference when they should have been ~0.99. Hours '
+                'of suspicion fell on the quantized model. The real culprit: a '
+                'newer tokenizer release was silently emitting all-[UNK] tokens. '
+                'Swap in the correct tokenizer and parity jumped to 0.99. The '
+                'model had been fine the whole time.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: 'Byte-for-byte — including the weird stuff',
+            body:
+                'I built a parity harness that checks the Dart tokenizer '
+                'against the reference across the full unicode long tail — '
+                'accents, Japanese, Cyrillic, even an emoji collapsing to '
+                '[UNK]. All 20 cases matched exactly. The riskiest part of the '
+                'package was now proven, not hoped.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.setback,
+            heading: 'The packages that "vanished"',
+            body:
+                'Mid-build, both package folders looked wiped — empty except a '
+                'stray test file. I nearly rebuilt everything from scratch. '
+                'They had simply been moved to another folder. Lesson learned '
+                'the slightly-too-stressful way: check before you panic.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.problem,
+            heading: 'It compiles — but does it actually run?',
+            body:
+                'Unit tests were green, but they can\'t load the native ONNX '
+                'runtime, so the real inference path was still unproven. I built '
+                'a small macOS app to run the actual model on a device — and '
+                'immediately hit a silent failure: macOS sandboxes outbound '
+                'network, so the download did nothing until I added the '
+                'network-client entitlement.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: 'End-to-end, on a real device',
+            body:
+                'With the entitlement fixed, the real int8 model downloaded, ran '
+                'through ONNX on a background isolate, and returned "doctor" → '
+                '"physician" on an actual machine. The last unverified layer — '
+                'Dart calling native ML — was finally green.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.decision,
+            heading: 'Renamed one minute before midnight',
+            body:
+                'Right before publishing, I caught that the name broke my own '
+                'brand — every other package uses a "_codespark" suffix, but '
+                'this one led with it. pub.dev names are permanent once '
+                'published, so I renamed it while I still could. The kind of '
+                'small thing that is impossible to fix later.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: '160 / 160, and honest about its limits',
+            body:
+                'Published at a perfect 160/160 pub score, verified end-to-end '
+                'on-device, and upfront about what it can\'t do. It\'s now the '
+                'engine under a whole family of local-AI Flutter packages.',
+          ),
+        ],
+      ),
+    ),
+    OpenSourcePackage(
+      name: 'semantic_search_codespark',
+      category: PackageCategory.ai,
+      status: PackageStatus.comingSoon,
+      tagline: 'Offline semantic search — match by meaning, not spelling.',
+      problem:
+          'Keyword and fuzzy search miss anything phrased differently. A user '
+          'typing "I forgot my login details" should find "Reset your '
+          'password" — but they share no words, so traditional search returns '
+          'nothing.',
+      description:
+          'A tiny API over the on-device engine: rank a list of strings or '
+          'objects by meaning. No API keys, no cloud — it finds "physician" '
+          'when the user types "doctor".',
+      tags: ['semantic-search', 'embeddings', 'search', 'nlp', 'on-device'],
+      relatedPackages: [
+        'ai_core_codespark',
+        'smart_sort_codespark',
+        'text_comparison_score_codespark',
+      ],
+      caseStudy: CaseStudy(
+        summary:
+            'Ready-made semantic search on top of ai_core_codespark — the '
+            'developer-experience layer that turns the engine into a one-line '
+            'search box.',
+        highlights: [
+          'Zero-word-overlap matches that fuzzy search cannot find',
+          'Embed once, query many (cached index)',
+          'Honest about limits — verified against the real model',
+        ],
+        sections: [
+          CaseStudySection(
+            heading: 'The idea',
+            body:
+                'Take the embedding engine and wrap it in the smallest possible '
+                'API: pass a query and a list, get back results ranked by '
+                'meaning. The whole product is the developer experience — the '
+                'hard ML lives in ai_core_codespark.',
+          ),
+          CaseStudySection(
+            heading: 'Validated honestly',
+            body:
+                'Before building, I probed the real model to see what it '
+                'actually knows. General-language synonyms (car → automobile, '
+                'doctor → physician) are strong; niche jargon (flutter state '
+                'management → riverpod) is not. So the package is upfront about '
+                'where semantic search shines and where it doesn\'t, instead of '
+                'overpromising.',
+          ),
+        ],
+      ),
+    ),
+    OpenSourcePackage(
+      name: 'smart_sort_codespark',
+      category: PackageCategory.ai,
+      status: PackageStatus.comingSoon,
+      tagline: 'Hybrid ranking — semantic meaning and fuzzy spelling, fused.',
+      problem:
+          'Semantic search nails meaning but misses exact tokens; fuzzy '
+          'matching nails spelling but has no idea what words mean. Used alone, '
+          'each is half a ranking engine.',
+      description:
+          'Fuses on-device semantic similarity with classic fuzzy matching '
+          'using Reciprocal Rank Fusion, so word-level and meaning-level '
+          'queries both rank well — the bridge between my fuzzy-matching and '
+          'AI work.',
+      tags: ['hybrid-search', 'ranking', 'fuzzy', 'semantic-search'],
+      relatedPackages: [
+        'ai_core_codespark',
+        'semantic_search_codespark',
+        'text_comparison_score_codespark',
+      ],
+      caseStudy: CaseStudy(
+        summary:
+            'The differentiator: combine the semantic engine with proven '
+            'fuzzy-matching algorithms into a single ranking system.',
+        highlights: [
+          'Reciprocal Rank Fusion — not a naive weighted blend',
+          'Builds on existing fuzzy-matching packages',
+        ],
+        sections: [
+          CaseStudySection(
+            heading: 'Why fuse them',
+            body:
+                'A fixed "0.7 × semantic + 0.3 × fuzzy" blend is a trap — the '
+                'two scores live on different scales and distributions. The '
+                'right approach is rank fusion (RRF), which combines the two '
+                'rankings rather than their raw scores. This is where my '
+                'existing fuzzy-matching work and the new AI engine finally '
+                'meet.',
+          ),
+        ],
+      ),
+    ),
+    OpenSourcePackage(
+      name: 'intent_detector_codespark',
+      category: PackageCategory.ai,
+      status: PackageStatus.comingSoon,
+      tagline: 'On-device intent classification, zero training.',
+      problem:
+          'Command bars, chat inputs, and voice features need to know what the '
+          'user wants — but training and shipping a classifier is heavyweight, '
+          'and cloud NLU means keys and latency.',
+      description:
+          'Few-shot intent detection on-device: define intents with a handful '
+          'of example phrases and the engine matches input against them by '
+          'meaning — no training step, no cloud.',
+      tags: ['intent', 'classification', 'nlp', 'on-device'],
+      relatedPackages: ['ai_core_codespark', 'semantic_search_codespark'],
+      caseStudy: CaseStudy(
+        summary:
+            'Classify user intent locally by comparing an utterance against '
+            'embedded prototype phrases — no model training required.',
+        highlights: ['Few-shot, no training', 'Reuses the same embedding model'],
+        sections: [
+          CaseStudySection(
+            heading: 'The approach',
+            body:
+                'Instead of fine-tuning a classifier, embed a few example '
+                'phrases per intent and compare an incoming utterance against '
+                'them with cosine similarity. Defining a new intent is just '
+                'adding examples — no training pipeline, and it runs entirely '
+                'on the same on-device model.',
+          ),
+        ],
+      ),
+    ),
+
+    // ── Flutter Utilities set ───────────────────────────────────────────────
     OpenSourcePackage(
       version: '0.0.6',
       publishedOn: DateTime.parse('2025-05-26'),

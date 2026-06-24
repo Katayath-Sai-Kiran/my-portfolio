@@ -30,7 +30,7 @@ class PortfolioNavBar extends StatelessWidget {
       height: AppDimensions.navBarHeight,
       decoration: BoxDecoration(
         color: c.navBg,
-        border: Border(bottom: BorderSide(color: c.border)),
+        border: Border(bottom: BorderSide(color: c.border, width: 2)),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: hPad),
@@ -55,24 +55,17 @@ class _Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = PortfolioColors.of(context);
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: 'SK',
-            style: AppTextStyles.titleLarge.copyWith(
-              color: c.accent,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          TextSpan(
-            text: '.',
-            style: AppTextStyles.titleLarge.copyWith(
-              color: c.orange,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ],
+    // Solid ink block with inverted monogram — a stamp, not a wordmark.
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      color: c.accent,
+      child: Text(
+        'SK',
+        style: AppTextStyles.titleLarge.copyWith(
+          color: Colors.white,
+          fontWeight: FontWeight.w900,
+          letterSpacing: 0,
+        ),
       ),
     );
   }
@@ -89,30 +82,27 @@ class _ThemeToggle extends StatelessWidget {
     return Tooltip(
       message: themeProvider.isDark ? 'Switch to light mode' : 'Switch to dark mode',
       child: InkWell(
-        borderRadius: BorderRadius.circular(20),
         onTap: themeProvider.toggle,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
           decoration: BoxDecoration(
             color: c.surface,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: c.border),
+            border: Border.all(color: c.border, width: 1.5),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 themeProvider.isDark
-                    ? Icons.light_mode_rounded
-                    : Icons.dark_mode_rounded,
-                size: 15,
-                color: c.accent,
+                    ? Icons.light_mode_outlined
+                    : Icons.dark_mode_outlined,
+                size: 14,
+                color: c.textPrimary,
               ),
-              const SizedBox(width: 5),
+              const SizedBox(width: 6),
               Text(
-                themeProvider.isDark ? 'Light' : 'Dark',
-                style: AppTextStyles.labelSmall.copyWith(color: c.textSecondary),
+                (themeProvider.isDark ? 'Light' : 'Dark').toUpperCase(),
+                style: AppTextStyles.monoSmall.copyWith(color: c.textPrimary, fontSize: 10),
               ),
             ],
           ),
@@ -192,22 +182,24 @@ class _NavItemState extends State<_NavItem> {
       onExit: (_) => setState(() => _hovered = false),
       child: GestureDetector(
         onTap: widget.onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
+        child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 2),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          // Active item gets a solid underline bar; hover paints the accent.
           decoration: BoxDecoration(
-            color: widget.isActive ? c.accentBg : Colors.transparent,
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(
-              color: widget.isActive ? c.accent.withValues(alpha: 0.3) : Colors.transparent,
+            border: Border(
+              bottom: BorderSide(
+                color: widget.isActive ? c.accent : Colors.transparent,
+                width: 2.5,
+              ),
             ),
           ),
           child: Text(
-            widget.label,
+            widget.label.toUpperCase(),
             style: AppTextStyles.navItem.copyWith(
-              color: highlight ? c.accent : c.textSecondary,
-              fontWeight: widget.isActive ? FontWeight.w600 : FontWeight.w500,
+              color: widget.isActive
+                  ? c.textPrimary
+                  : (highlight ? c.accent : c.textSecondary),
             ),
           ),
         ),

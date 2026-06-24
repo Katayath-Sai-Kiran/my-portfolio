@@ -1,9 +1,12 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_dimensions.dart';
+import '../../core/constants/app_strings.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/responsive_helper.dart';
 import '../../shared/data/portfolio_data.dart';
@@ -84,6 +87,11 @@ class _PackageDetailPageState extends State<PackageDetailPage>
                 );
               },
             ),
+          // _RevealCurtain(
+          //   pkg: widget.pkg,
+          //   onTap: _triggerReveal,
+          //   revealProgress: _curtainAnim.value,
+          // ),
         ],
       ),
     );
@@ -118,9 +126,10 @@ class _RevealCurtainState extends State<_RevealCurtain>
       vsync: this,
       duration: const Duration(milliseconds: 1200),
     )..repeat(reverse: true);
-    _bounce = Tween(begin: 0.0, end: 8.0).animate(
-      CurvedAnimation(parent: _bounceCtrl, curve: Curves.easeInOut),
-    );
+    _bounce = Tween(
+      begin: 0.0,
+      end: 8.0,
+    ).animate(CurvedAnimation(parent: _bounceCtrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -150,12 +159,10 @@ class _RevealCurtainState extends State<_RevealCurtain>
             Positioned.fill(
               child: Center(
                 child: Container(
-                  width: 400,
-                  height: 300,
                   decoration: BoxDecoration(
                     gradient: RadialGradient(
                       colors: [
-                        c.accent.withValues(alpha: 0.14),
+                        c.accent.withValues(alpha: 0.1),
                         Colors.transparent,
                       ],
                       radius: 1.0,
@@ -174,32 +181,19 @@ class _RevealCurtainState extends State<_RevealCurtain>
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Pkg label
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: c.accentBg,
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: c.accent.withValues(alpha: 0.25)),
-                    ),
-                    child: Text(
-                      'PACKAGE',
-                      style: AppTextStyles.monoSmall.copyWith(color: c.accent),
-                    ),
-                  ),
+                  // Pkg / status label
+                  _StatusLabel(pkg: widget.pkg, c: c),
 
                   const SizedBox(height: 28),
 
                   // Big display name
                   Text(
                     widget.pkg.displayName,
-                    style: (isMobile
-                            ? AppTextStyles.headlineLarge
-                            : AppTextStyles.displayMedium)
-                        .copyWith(
-                      color: c.textPrimary,
-                      height: 1.05,
-                    ),
+                    style:
+                        (isMobile
+                                ? AppTextStyles.headlineLarge
+                                : AppTextStyles.displayMedium)
+                            .copyWith(color: c.textPrimary, height: 1.05),
                   ),
 
                   if (widget.pkg.tagline != null) ...[
@@ -338,6 +332,10 @@ class _DetailContent extends StatelessWidget {
           // Story chapters
           _StorySection(pkg: pkg, hPad: hPad, vPad: vPad),
 
+          // Case study
+          if (pkg.caseStudy != null)
+            _CaseStudySection(pkg: pkg, hPad: hPad, vPad: vPad),
+
           // Related packages
           if (pkg.relatedPackages.isNotEmpty)
             _RelatedSection(pkg: pkg, hPad: hPad, vPad: vPad),
@@ -404,7 +402,10 @@ class _DetailNavBar extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text('/', style: AppTextStyles.labelLarge.copyWith(color: c.border)),
+                child: Text(
+                  '/',
+                  style: AppTextStyles.labelLarge.copyWith(color: c.border),
+                ),
               ),
               Text(
                 pkg.displayName,
@@ -425,7 +426,11 @@ class _DetailNavBar extends StatelessWidget {
 // ── Hero section ──────────────────────────────────────────────────────────────
 
 class _DetailHero extends StatelessWidget {
-  const _DetailHero({required this.pkg, required this.hPad, required this.vPad});
+  const _DetailHero({
+    required this.pkg,
+    required this.hPad,
+    required this.vPad,
+  });
   final OpenSourcePackage pkg;
   final double hPad;
   final double vPad;
@@ -439,35 +444,27 @@ class _DetailHero extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(hPad, vPad, hPad, vPad * 0.8),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: AppDimensions.maxContentWidth),
+        constraints: const BoxConstraints(
+          maxWidth: AppDimensions.maxContentWidth,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Package label
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: c.accentBg,
-                borderRadius: BorderRadius.circular(4),
-                border: Border.all(color: c.accent.withValues(alpha: 0.25)),
-              ),
-              child: Text(
-                'PACKAGE',
-                style: AppTextStyles.monoSmall.copyWith(color: c.accent),
-              ),
-            ),
+            // Package / status label
+            _StatusLabel(pkg: pkg, c: c),
 
             const SizedBox(height: 24),
 
             // Display name
             Text(
               pkg.displayName,
-              style: (isMobile
-                      ? AppTextStyles.headlineLarge
-                      : isWide
+              style:
+                  (isMobile
+                          ? AppTextStyles.headlineLarge
+                          : isWide
                           ? AppTextStyles.displayLarge
                           : AppTextStyles.displayMedium)
-                  .copyWith(color: c.textPrimary, height: 1.05),
+                      .copyWith(color: c.textPrimary, height: 1.05),
             ),
 
             if (pkg.tagline != null) ...[
@@ -523,7 +520,10 @@ class _DetailHero extends StatelessWidget {
               runSpacing: 6,
               children: pkg.tags.map((t) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: c.accentBg,
                     borderRadius: BorderRadius.circular(4),
@@ -531,7 +531,9 @@ class _DetailHero extends StatelessWidget {
                   ),
                   child: Text(
                     t,
-                    style: AppTextStyles.monoSmall.copyWith(color: c.accentSubtle),
+                    style: AppTextStyles.monoSmall.copyWith(
+                      color: c.accentSubtle,
+                    ),
                   ),
                 );
               }).toList(),
@@ -540,26 +542,7 @@ class _DetailHero extends StatelessWidget {
             const SizedBox(height: 36),
 
             // CTA buttons
-            Wrap(
-              spacing: 12,
-              runSpacing: 10,
-              children: [
-                _CtaButton(
-                  label: 'View on pub.dev',
-                  icon: Icons.open_in_new_rounded,
-                  primary: true,
-                  url: pkg.pubUrl,
-                  c: c,
-                ),
-                if (pkg.githubUrl != null)
-                  _CtaButton(
-                    label: 'Source code',
-                    icon: Icons.code_rounded,
-                    url: pkg.githubUrl!,
-                    c: c,
-                  ),
-              ],
-            ),
+            _HeroCtas(pkg: pkg, c: c),
           ],
         ),
       ),
@@ -569,8 +552,18 @@ class _DetailHero extends StatelessWidget {
   String _formatDate(DateTime d) =>
       '${d.year} ${_months[d.month - 1]} ${d.day}';
   static const _months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
 }
 
@@ -635,7 +628,9 @@ class _StorySection extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(hPad, vPad * 0.9, hPad, 0),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: AppDimensions.maxContentWidth),
+        constraints: const BoxConstraints(
+          maxWidth: AppDimensions.maxContentWidth,
+        ),
         child: isMobile
             ? _MobileStory(pkg: pkg, c: c)
             : _DesktopStory(pkg: pkg, c: c),
@@ -654,9 +649,15 @@ class _DesktopStory extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(flex: 3, child: _WhyBuilt(pkg: pkg, c: c)),
+        Expanded(
+          flex: 3,
+          child: _WhyBuilt(pkg: pkg, c: c),
+        ),
         const SizedBox(width: 64),
-        Expanded(flex: 2, child: _ProblemCard(pkg: pkg, c: c)),
+        Expanded(
+          flex: 2,
+          child: _ProblemCard(pkg: pkg, c: c),
+        ),
       ],
     );
   }
@@ -798,7 +799,10 @@ class _RelatedSection extends StatelessWidget {
     final isMobile = ResponsiveHelper.isMobile(context);
 
     final related = pkg.relatedPackages
-        .map((name) => PortfolioData.packages.where((p) => p.name == name).firstOrNull)
+        .map(
+          (name) =>
+              PortfolioData.packages.where((p) => p.name == name).firstOrNull,
+        )
         .whereType<OpenSourcePackage>()
         .toList();
 
@@ -807,7 +811,9 @@ class _RelatedSection extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(hPad, vPad * 0.8, hPad, 0),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: AppDimensions.maxContentWidth),
+        constraints: const BoxConstraints(
+          maxWidth: AppDimensions.maxContentWidth,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -823,14 +829,17 @@ class _RelatedSection extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'From the same package ecosystem',
-              style: AppTextStyles.headlineMedium.copyWith(color: c.textPrimary),
+              style: AppTextStyles.headlineMedium.copyWith(
+                color: c.textPrimary,
+              ),
             ),
             const SizedBox(height: 32),
             LayoutBuilder(
               builder: (ctx, constraints) {
                 final cols = isMobile ? 1 : (related.length == 1 ? 1 : 2);
                 const gap = 16.0;
-                final cardWidth = (constraints.maxWidth - gap * (cols - 1)) / cols;
+                final cardWidth =
+                    (constraints.maxWidth - gap * (cols - 1)) / cols;
 
                 return Wrap(
                   spacing: gap,
@@ -944,87 +953,449 @@ class _DetailFooter extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(hPad, 80, hPad, 0),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: AppDimensions.maxContentWidth),
+        constraints: const BoxConstraints(
+          maxWidth: AppDimensions.maxContentWidth,
+        ),
         child: Container(
           padding: EdgeInsets.all(isMobile ? 28 : 48),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                c.accentBg,
-                c.orange.withValues(alpha: 0.04),
-              ],
+              colors: [c.accentBg, c.orange.withValues(alpha: 0.04)],
             ),
             borderRadius: BorderRadius.circular(AppDimensions.cardRadius),
             border: Border.all(color: c.accent.withValues(alpha: 0.2)),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Use it in your project',
-                style: AppTextStyles.headlineMedium.copyWith(
-                  color: c.textPrimary,
-                  fontWeight: FontWeight.w700,
-                ),
+          child: pkg.isComingSoon
+              ? _ComingSoonFooter(pkg: pkg, c: c)
+              : _UseItFooter(pkg: pkg, c: c),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Status label (PACKAGE / COMING SOON) ──────────────────────────────────────
+
+class _StatusLabel extends StatelessWidget {
+  const _StatusLabel({required this.pkg, required this.c});
+  final OpenSourcePackage pkg;
+  final PortfolioColors c;
+
+  @override
+  Widget build(BuildContext context) {
+    final soon = pkg.isComingSoon;
+    final color = soon ? c.orange : c.accent;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
+      ),
+      child: Text(
+        soon ? 'COMING SOON' : 'PACKAGE',
+        style: AppTextStyles.monoSmall.copyWith(color: color),
+      ),
+    );
+  }
+}
+
+// ── Hero CTAs (status-aware) ──────────────────────────────────────────────────
+
+class _HeroCtas extends StatelessWidget {
+  const _HeroCtas({required this.pkg, required this.c});
+  final OpenSourcePackage pkg;
+  final PortfolioColors c;
+
+  @override
+  Widget build(BuildContext context) {
+    final pubUrl = pkg.pubUrl;
+    return Wrap(
+      spacing: 12,
+      runSpacing: 10,
+      children: [
+        if (pubUrl != null)
+          _CtaButton(
+            label: 'View on pub.dev',
+            icon: Icons.open_in_new_rounded,
+            primary: true,
+            url: pubUrl,
+            c: c,
+          ),
+        if (pkg.githubUrl != null)
+          _CtaButton(
+            label: 'Source code',
+            icon: Icons.code_rounded,
+            primary: pubUrl == null,
+            url: pkg.githubUrl!,
+            c: c,
+          ),
+        if (pubUrl == null && pkg.githubUrl == null)
+          _CtaButton(
+            label: 'Follow on pub.dev',
+            icon: Icons.notifications_none_rounded,
+            primary: true,
+            url: AppStrings.pubDevUrl,
+            c: c,
+          ),
+      ],
+    );
+  }
+}
+
+// ── Case study ────────────────────────────────────────────────────────────────
+
+class _CaseStudySection extends StatelessWidget {
+  const _CaseStudySection({
+    required this.pkg,
+    required this.hPad,
+    required this.vPad,
+  });
+  final OpenSourcePackage pkg;
+  final double hPad;
+  final double vPad;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = PortfolioColors.of(context);
+    final cs = pkg.caseStudy!;
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(hPad, vPad * 0.8, hPad, 0),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxWidth: AppDimensions.maxContentWidth,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(height: 1, color: c.border),
+            const SizedBox(height: 48),
+            Text(
+              'CASE STUDY',
+              style: AppTextStyles.monoSmall.copyWith(
+                color: c.accent,
+                letterSpacing: 2,
               ),
-              const SizedBox(height: 12),
-              Text(
-                'Add to your pubspec.yaml and start building.',
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'The build log',
+              style: AppTextStyles.headlineMedium.copyWith(
+                color: c.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 20),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 680),
+              child: Text(
+                cs.summary,
                 style: AppTextStyles.bodyLarge.copyWith(
                   color: c.textSecondary,
-                  height: 1.6,
+                  height: 1.75,
+                  fontStyle: FontStyle.italic,
                 ),
               ),
-              const SizedBox(height: 20),
-              // Install snippet
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: c.surface,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: c.border),
-                ),
-                child: Row(
+            ),
+
+            // Highlights / key results
+            if (cs.highlights.isNotEmpty) ...[
+              const SizedBox(height: 28),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: cs.highlights
+                    .map((h) => _HighlightChip(label: h, c: c))
+                    .toList(),
+              ),
+            ],
+
+            const SizedBox(height: 40),
+
+            // Chapters
+            for (var i = 0; i < cs.sections.length; i++) ...[
+              _CaseStudyChapter(index: i + 1, section: cs.sections[i], c: c),
+              if (i != cs.sections.length - 1) const SizedBox(height: 32),
+            ],
+
+            // Optional external write-up
+            if (cs.url != null) ...[
+              const SizedBox(height: 32),
+              _CtaButton(
+                label: 'Read the full write-up',
+                icon: Icons.article_outlined,
+                url: cs.url!,
+                c: c,
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _HighlightChip extends StatelessWidget {
+  const _HighlightChip({required this.label, required this.c});
+  final String label;
+  final PortfolioColors c;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      decoration: BoxDecoration(
+        color: c.accentBg,
+        border: Border.all(color: c.accent.withValues(alpha: 0.25)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.check_rounded, size: 13, color: c.accent),
+          const SizedBox(width: 7),
+          Text(
+            label,
+            style: AppTextStyles.monoSmall.copyWith(
+              color: c.accentSubtle,
+              fontSize: 11,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CaseStudyChapter extends StatelessWidget {
+  const _CaseStudyChapter({
+    required this.index,
+    required this.section,
+    required this.c,
+  });
+  final int index;
+  final CaseStudySection section;
+  final PortfolioColors c;
+
+  /// Maps a beat kind to its label, accent colour, and icon.
+  ({String label, Color color, IconData icon}) get _meta {
+    switch (section.kind) {
+      case CaseStudyKind.decision:
+        return (
+          label: 'DECISION',
+          color: c.accent,
+          icon: Icons.alt_route_rounded,
+        );
+      case CaseStudyKind.setback:
+        return (
+          label: 'STEPPED BACK',
+          color: c.orange,
+          icon: Icons.replay_rounded,
+        );
+      case CaseStudyKind.problem:
+        return (
+          label: 'PROBLEM',
+          color: c.orange,
+          icon: Icons.warning_amber_rounded,
+        );
+      case CaseStudyKind.breakthrough:
+        return (
+          label: 'BREAKTHROUGH',
+          color: c.success,
+          icon: Icons.bolt_rounded,
+        );
+      case CaseStudyKind.chapter:
+        return (
+          label: 'STEP ${index.toString().padLeft(2, '0')}',
+          color: c.accentSubtle,
+          icon: Icons.circle,
+        );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final m = _meta;
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Colour-coded spine for the beat.
+          Container(
+            width: 3,
+            decoration: BoxDecoration(
+              color: m.color.withValues(alpha: 0.55),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(width: 18),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Kind tag
+                Row(
                   children: [
-                    Expanded(
-                      child: Text(
-                        'flutter pub add ${pkg.name}',
-                        style: AppTextStyles.mono.copyWith(
-                          fontSize: 13,
-                          color: c.accent,
-                        ),
+                    Icon(m.icon, size: 12, color: m.color),
+                    const SizedBox(width: 7),
+                    Text(
+                      m.label,
+                      style: AppTextStyles.monoSmall.copyWith(
+                        color: m.color,
+                        fontSize: 10,
+                        letterSpacing: 1.5,
                       ),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 28),
-              Wrap(
-                spacing: 12,
-                runSpacing: 10,
-                children: [
-                  _CtaButton(
-                    label: 'View on pub.dev',
-                    icon: Icons.open_in_new_rounded,
-                    primary: true,
-                    url: pkg.pubUrl,
-                    c: c,
+                const SizedBox(height: 10),
+                Text(
+                  section.heading,
+                  style: AppTextStyles.titleLarge.copyWith(
+                    color: c.textPrimary,
+                    fontWeight: FontWeight.w700,
                   ),
-                  if (pkg.githubUrl != null)
-                    _CtaButton(
-                      label: 'GitHub',
-                      icon: Icons.code_rounded,
-                      url: pkg.githubUrl!,
-                      c: c,
-                    ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  section.body,
+                  style: AppTextStyles.bodyLarge.copyWith(
+                    color: c.textSecondary,
+                    height: 1.8,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Footers (live vs coming soon) ─────────────────────────────────────────────
+
+class _UseItFooter extends StatelessWidget {
+  const _UseItFooter({required this.pkg, required this.c});
+  final OpenSourcePackage pkg;
+  final PortfolioColors c;
+
+  @override
+  Widget build(BuildContext context) {
+    final pubUrl = pkg.pubUrl;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Use it in your project',
+          style: AppTextStyles.headlineMedium.copyWith(
+            color: c.textPrimary,
+            fontWeight: FontWeight.w700,
           ),
         ),
-      ),
+        const SizedBox(height: 12),
+        Text(
+          'Add to your pubspec.yaml and start building.',
+          style: AppTextStyles.bodyLarge.copyWith(
+            color: c.textSecondary,
+            height: 1.6,
+          ),
+        ),
+        const SizedBox(height: 20),
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: c.surface,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: c.border),
+          ),
+          child: Text(
+            'flutter pub add ${pkg.name}',
+            style: AppTextStyles.mono.copyWith(fontSize: 13, color: c.accent),
+          ),
+        ),
+        const SizedBox(height: 28),
+        Wrap(
+          spacing: 12,
+          runSpacing: 10,
+          children: [
+            if (pubUrl != null)
+              _CtaButton(
+                label: 'View on pub.dev',
+                icon: Icons.open_in_new_rounded,
+                primary: true,
+                url: pubUrl,
+                c: c,
+              ),
+            if (pkg.githubUrl != null)
+              _CtaButton(
+                label: 'GitHub',
+                icon: Icons.code_rounded,
+                url: pkg.githubUrl!,
+                c: c,
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _ComingSoonFooter extends StatelessWidget {
+  const _ComingSoonFooter({required this.pkg, required this.c});
+  final OpenSourcePackage pkg;
+  final PortfolioColors c;
+
+  @override
+  Widget build(BuildContext context) {
+    final enginePub = PortfolioData.packages
+        .where((p) => p.name == 'ai_core_codespark')
+        .firstOrNull
+        ?.pubUrl;
+    final showEngine = enginePub != null && pkg.name != 'ai_core_codespark';
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'On the roadmap',
+          style: AppTextStyles.headlineMedium.copyWith(
+            color: c.textPrimary,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          '${pkg.displayName} is in active development and not on pub.dev yet. '
+          'Follow the publisher to get it the day it ships.',
+          style: AppTextStyles.bodyLarge.copyWith(
+            color: c.textSecondary,
+            height: 1.6,
+          ),
+        ),
+        const SizedBox(height: 28),
+        Wrap(
+          spacing: 12,
+          runSpacing: 10,
+          children: [
+            _CtaButton(
+              label: 'Follow on pub.dev',
+              icon: Icons.notifications_none_rounded,
+              primary: true,
+              url: AppStrings.pubDevUrl,
+              c: c,
+            ),
+            if (showEngine)
+              _CtaButton(
+                label: 'Explore the engine',
+                icon: Icons.bolt_rounded,
+                url: enginePub,
+                c: c,
+              ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -1070,7 +1441,9 @@ class _CtaButtonState extends State<_CtaButton> {
                 : (_hovered ? c.surfaceHover : c.surface),
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: widget.primary ? c.accent : (_hovered ? c.accent : c.border),
+              color: widget.primary
+                  ? c.accent
+                  : (_hovered ? c.accent : c.border),
             ),
           ),
           child: Row(

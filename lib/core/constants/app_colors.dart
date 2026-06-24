@@ -53,57 +53,62 @@ class PortfolioColors {
 }
 
 abstract final class AppColors {
-  // ── Dark palette ───────────────────────────────────────────────────────────
+  // ── Brutalist palette ───────────────────────────────────────────────────────
+  // Concrete/newsprint surfaces, ink-black structure, two loud primaries:
+  //   accent = vermilion (the loud color), orange = electric blue (used sparingly).
+  // Borders are near-black and hard; nothing is soft, glassy, or glowing.
+
+  // ── Dark (void) ──────────────────────────────────────────────────────────────
   static const PortfolioColors dark = PortfolioColors(
-    background: Color(0xFF09090E),
-    surface: Color(0xFF0F0F1C),
-    surfaceHover: Color(0xFF151528),
-    border: Color(0xFF1E1E35),
-    borderStrong: Color(0xFF2E2E48),
-    textPrimary: Color(0xFFEEEEFF),
-    textSecondary: Color(0xFF8888AA),
-    textMuted: Color(0xFF555570),
-    accent: Color(0xFF6366F1),
-    accentSubtle: Color(0xFF818CF8),
-    accentBg: Color(0x1A6366F1),
-    orange: Color(0xFFF97316),
-    success: Color(0xFF22C55E),
-    navBg: Color(0xF009090E),
+    background: Color(0xFF0C0C0A),
+    surface: Color(0xFF161613),
+    surfaceHover: Color(0xFF1F1F1A),
+    border: Color(0xFF3A3A33),
+    borderStrong: Color(0xFFF4F2EA),
+    textPrimary: Color(0xFFF4F2EA),
+    textSecondary: Color(0xFFA8A89C),
+    textMuted: Color(0xFF6E6E63),
+    accent: Color(0xFFFF4A22),
+    accentSubtle: Color(0xFFFF6A45),
+    accentBg: Color(0xFF2A1710),
+    orange: Color(0xFF4D6BFF),
+    success: Color(0xFF3BD171),
+    navBg: Color(0xFF0C0C0A),
   );
 
-  // ── Light palette ──────────────────────────────────────────────────────────
+  // ── Light (concrete) ──────────────────────────────────────────────────────────
   static const PortfolioColors light = PortfolioColors(
-    background: Color(0xFFFAFAFF),
-    surface: Color(0xFFFFFFFF),
-    surfaceHover: Color(0xFFF0F0FA),
-    border: Color(0xFFE2E2F0),
-    borderStrong: Color(0xFFCECEE8),
-    textPrimary: Color(0xFF0C0C1C),
-    textSecondary: Color(0xFF56567A),
-    textMuted: Color(0xFF9090A8),
-    accent: Color(0xFF4F46E5),
-    accentSubtle: Color(0xFF6366F1),
-    accentBg: Color(0x0D4F46E5),
-    orange: Color(0xFFEA6A0A),
-    success: Color(0xFF16A34A),
-    navBg: Color(0xF5FAFAFF),
+    background: Color(0xFFE6E3DA),
+    surface: Color(0xFFF5F3EC),
+    surfaceHover: Color(0xFFFFFFFF),
+    border: Color(0xFF14140F),
+    borderStrong: Color(0xFF000000),
+    textPrimary: Color(0xFF0A0A08),
+    textSecondary: Color(0xFF3C3C34),
+    textMuted: Color(0xFF6B6B61),
+    accent: Color(0xFFE53310),
+    accentSubtle: Color(0xFFC22A0C),
+    accentBg: Color(0xFFFCE3DB),
+    orange: Color(0xFF1B1AFF),
+    success: Color(0xFF0F8A3C),
+    navBg: Color(0xFFE6E3DA),
   );
 
   // ── Static aliases kept for legacy compatibility ───────────────────────────
   // (Remove when all references are migrated to PortfolioColors.of(context))
-  static const Color backgroundDark = Color(0xFF09090E);
-  static const Color backgroundCard = Color(0xFF0F0F1C);
-  static const Color backgroundCardLight = Color(0xFF151528);
-  static const Color border = Color(0xFF1E1E35);
-  static const Color textPrimary = Color(0xFFEEEEFF);
-  static const Color textSecondary = Color(0xFF8888AA);
-  static const Color textMuted = Color(0xFF555570);
-  static const Color accent = Color(0xFF6366F1);
-  static const Color accentSecondary = Color(0xFFF97316);
-  static const Color primary = Color(0xFF6366F1);
-  static const Color primaryLight = Color(0xFF818CF8);
-  static const Color primaryDark = Color(0xFF4338CA);
-  static const Color divider = Color(0xFF1E1E35);
-  static const Color error = Color(0xFFEF4444);
-  static const Color success = Color(0xFF22C55E);
+  static const Color backgroundDark = Color(0xFF0C0C0A);
+  static const Color backgroundCard = Color(0xFF161613);
+  static const Color backgroundCardLight = Color(0xFF1F1F1A);
+  static const Color border = Color(0xFF3A3A33);
+  static const Color textPrimary = Color(0xFFF4F2EA);
+  static const Color textSecondary = Color(0xFFA8A89C);
+  static const Color textMuted = Color(0xFF6E6E63);
+  static const Color accent = Color(0xFFFF4A22);
+  static const Color accentSecondary = Color(0xFF4D6BFF);
+  static const Color primary = Color(0xFFFF4A22);
+  static const Color primaryLight = Color(0xFFFF6A45);
+  static const Color primaryDark = Color(0xFFC22A0C);
+  static const Color divider = Color(0xFF3A3A33);
+  static const Color error = Color(0xFFE53310);
+  static const Color success = Color(0xFF3BD171);
 }

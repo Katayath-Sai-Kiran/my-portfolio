@@ -23,9 +23,10 @@ abstract final class AppDimensions {
   // NavBar
   static const double navBarHeight = 70;
 
-  // Cards
-  static const double cardRadius = 16;
+  // Cards — brutalist: no radius, hard borders + offset shadows instead
+  static const double cardRadius = 0;
   static const double cardElevation = 0;
+  static const double borderWidth = 2;
 
   // Max content width
   static const double maxContentWidth = 1200;

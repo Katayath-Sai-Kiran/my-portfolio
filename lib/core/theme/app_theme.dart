@@ -24,27 +24,25 @@ final class AppTheme {
         onSurface: c.textPrimary,
         outline: c.border,
       ),
-      dividerTheme: DividerThemeData(color: c.border, thickness: 1),
+      dividerTheme: DividerThemeData(color: c.border, thickness: 1.5),
       cardTheme: CardThemeData(
         color: c.surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: BorderSide(color: c.border),
+          borderRadius: BorderRadius.zero,
+          side: BorderSide(color: c.border, width: 2),
         ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: c.accentBg,
-        side: BorderSide(color: c.border),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        side: BorderSide(color: c.border, width: 1.5),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: c.surface,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
-      iconTheme: IconThemeData(color: c.textMuted),
+      iconTheme: IconThemeData(color: c.textPrimary),
     );
   }
 }
