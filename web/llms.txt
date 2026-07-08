@@ -13,25 +13,25 @@
 ## Packages (15 on pub.dev)
 
 ### On-Device AI
-- **ai_core_codespark** — Core embedding engine with offline MiniLM model (23MB). Powers semantic understanding without a server.
-- **smart_suggestions_codespark** — Anchor-based item recommendations with MMR diversity ranking. Typed exceptions, web-compatible persistence.
-- **semantic_search_codespark** — Query-driven semantic search with debounced input, MMR diversity, and typed results.
+- **ai_core_codespark** — Core embedding engine with offline MiniLM model for semantic understanding
+- **semantic_search_codespark** — Query-driven semantic search with debounced input and MMR diversity ranking
+- **smart_suggestions_codespark** — Anchor-based recommendations with MMR diverse ranking and centroid matching
 
 ### Text & UI
-- **dual_tone_text_codespark** — Dual-tone gradient text rendering with vertical/horizontal color splits.
-- **horizon_scroll_codespark** — Parallax horizontal scroll layouts.
-- **animated_percentage_indicator_codespark** — Animated percentage and progress indicators.
-- **golden_rectangle_clipper_codespark** — Golden ratio-based clip shapes.
-- **context_extensions_codespark** — Build context utility extensions.
-- **dynamic_border_codespark** — Animated border widgets.
-- **glass_morphism_codespark** — Frosted glass UI effects.
-- **responsive_text_codespark** — Auto-scaling responsive text.
-- **custom_icon_loader** — Custom loading indicators and icon utilities.
+- **text_comparison_score_codespark** — String similarity using Levenshtein, Damerau-Levenshtein, and Jaro-Winkler algorithms
+- **text_highlight_codespark** — Text highlighting with single, multiple, and regex query support
+- **rich_highlight_text_codespark** — Inline substring highlighting using Text.rich with custom styles
+- **dual_tone_text_codespark** — Dual-tone gradient text rendering with vertical and horizontal color splits
+- **curved_text_codespark** — Render text along circular, spiral, wave, elliptical, or custom paths
+- **date_formatter_codespark** — DateTime extensions for formatting, relative time, time ago, and business day calculations
+- **animated_dropdown_search_codespark** — Customisable animated search dropdown widget
+- **read_more_codespark** — Expandable text widget for long-form content with customizable truncation
+- **icon_to_text_extension_codespark** — Convert any IconData to inline Text or TextSpan with rich text builder
 
 ### Developer Utilities
-- **resumable_upload** — Chunked file upload with retry logic and progress tracking for unreliable networks.
-- **custom_media_player** — ExoPlayer-based video player with custom controls and playlist management.
-- **text_renderer** — Rich text rendering with custom painter-based layouts.
+- **advanced_text_input_formatters_codespark** — Extended input text formatter utilities for Flutter TextFields
+- **internet_quality_codespark** — Measure real-world internet quality using latency-based analysis
+- **context_extensions_codespark** — Build context utility extensions for cleaner widget code
 
 ## Articles (Medium)
 1. **The Accidental Ecosystem** (Apr 14, 2026) — How fixing personal frustrations led to 15 packages on pub.dev.
@@ -40,5 +40,5 @@
 4. **The AI Shift and pub.dev** (Jun 15, 2026) — How AI-assisted development changes the package ecosystem.
 
 ## Experience
-- **Flutter Engineer @ Enspirit** (2026) — 15 packages on pub.dev, on-device ML ecosystem, semantic search & suggestions.
-- **Flutter Developer @ Wielabs** (2021–2025) — ExoPlayer pipelines, chunked upload engines, Firebase backends, custom rendering.
+- **Flutter Engineer @ Enspirit** (2025–Present) — Rally Nation sports app with real-time multiplayer, Socket.io, Hive offline fallback
+- **Flutter Developer @ Wielabs** (2021–2025) — 4 production apps across EdTech, NFT, trade, and healthcare; full App Store & Play Store lifecycle

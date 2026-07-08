@@ -34,7 +34,7 @@ class PortfolioNavBar extends StatelessWidget {
             const Spacer(),
             _GhostLink(
               label: 'GitHub',
-              url: 'https://github.com/ksaikiran0407',
+              url: 'https://github.com/Katayath-Sai-Kiran',
               c: c,
             ),
             const SizedBox(width: 8),

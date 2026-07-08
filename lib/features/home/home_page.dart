@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/design/app_colors.dart';
 import '../../core/design/app_typography.dart';
@@ -404,15 +405,18 @@ const _categories = [
     packages: [
       _Pkg(
         name: 'ai_core_codespark',
-        description: 'Core embedding engine, offline MiniLM model',
-      ),
-      _Pkg(
-        name: 'smart_suggestions_codespark',
-        description: 'Anchor-based recommendations, MMR ranking',
+        description:
+            'Core embedding engine with offline MiniLM model for semantic understanding',
       ),
       _Pkg(
         name: 'semantic_search_codespark',
-        description: 'Query-driven semantic search with debounce',
+        description:
+            'Query-driven semantic search with debounced input and MMR diversity ranking',
+      ),
+      _Pkg(
+        name: 'smart_suggestions_codespark',
+        description:
+            'Anchor-based recommendations with MMR diverse ranking and centroid matching',
       ),
     ],
   ),
@@ -420,40 +424,48 @@ const _categories = [
     name: 'Text & UI',
     packages: [
       _Pkg(
+        name: 'text_comparison_score_codespark',
+        description:
+            'String similarity using Levenshtein, Damerau-Levenshtein, and Jaro-Winkler algorithms',
+      ),
+      _Pkg(
+        name: 'text_highlight_codespark',
+        description:
+            'Text highlighting with single, multiple, and regex query support',
+      ),
+      _Pkg(
+        name: 'rich_highlight_text_codespark',
+        description:
+            'Inline substring highlighting using Text.rich with custom styles',
+      ),
+      _Pkg(
         name: 'dual_tone_text_codespark',
-        description: 'Dual-tone gradient text rendering',
+        description:
+            'Dual-tone gradient text rendering with vertical and horizontal color splits',
       ),
       _Pkg(
-        name: 'horizon_scroll_codespark',
-        description: 'Parallax horizontal scroll layouts',
+        name: 'curved_text_codespark',
+        description:
+            'Render text along circular, spiral, wave, elliptical, or custom paths',
       ),
       _Pkg(
-        name: 'animated_percentage_indicator_codespark',
-        description: 'Animated percentage/progress indicators',
+        name: 'date_formatter_codespark',
+        description:
+            'DateTime extensions for formatting, relative time, time ago, and business day calculations',
       ),
       _Pkg(
-        name: 'golden_rectangle_clipper_codespark',
-        description: 'Golden ratio-based clip shapes',
+        name: 'animated_dropdown_search_codespark',
+        description: 'Customisable animated search dropdown widget',
       ),
       _Pkg(
-        name: 'context_extensions_codespark',
-        description: 'Build context utilities and helpers',
+        name: 'read_more_codespark',
+        description:
+            'Expandable text widget for long-form content with customizable truncation',
       ),
       _Pkg(
-        name: 'dynamic_border_codespark',
-        description: 'Animated border widgets',
-      ),
-      _Pkg(
-        name: 'glass_morphism_codespark',
-        description: 'Frosted glass UI effects',
-      ),
-      _Pkg(
-        name: 'responsive_text_codespark',
-        description: 'Auto-scaling responsive text',
-      ),
-      _Pkg(
-        name: 'custom_icon_loader',
-        description: 'Custom loading indicators and icons',
+        name: 'icon_to_text_extension_codespark',
+        description:
+            'Convert any IconData to inline Text or TextSpan with rich text builder',
       ),
     ],
   ),
@@ -461,16 +473,18 @@ const _categories = [
     name: 'Developer Utilities',
     packages: [
       _Pkg(
-        name: 'resumable_upload',
-        description: 'Chunked upload with retry and progress',
+        name: 'advanced_text_input_formatters_codespark',
+        description:
+            'Extended input text formatter utilities for Flutter TextFields',
       ),
       _Pkg(
-        name: 'custom_media_player',
-        description: 'ExoPlayer-based video player with custom UI',
+        name: 'internet_quality_codespark',
+        description:
+            'Measure real-world internet quality using latency-based analysis',
       ),
       _Pkg(
-        name: 'text_renderer',
-        description: 'Rich text rendering with custom layouts',
+        name: 'context_extensions_codespark',
+        description: 'Build context utility extensions for cleaner widget code',
       ),
     ],
   ),
@@ -505,15 +519,13 @@ class _ArticlesExperienceRow extends StatelessWidget {
                 _ExperienceColumn(),
               ],
             )
-          : IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: const [
-                  Expanded(child: _ArticlesColumn()),
-                  SizedBox(width: 48),
-                  Expanded(child: _ExperienceColumn()),
-                ],
-              ),
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Expanded(child: _ArticlesColumn()),
+                SizedBox(width: 48),
+                Expanded(child: _ExperienceColumn()),
+              ],
             ),
     );
   }
@@ -530,7 +542,7 @@ class _ArticlesColumn extends StatelessWidget {
     return Container(
       key: scrollProvider.sectionKeys[PortfolioSection.articles],
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             'RECENT ARTICLES',
@@ -543,34 +555,61 @@ class _ArticlesColumn extends StatelessWidget {
           const SizedBox(height: 16),
           ..._articles.map(
             (a) => Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    a.title,
-                    style: AppTypography.titleMedium.copyWith(
-                      color: c.textPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
+              padding: const EdgeInsets.only(bottom: 16),
+              child: InkWell(
+                hoverColor: c.surfaceHover,
+                onTap: () {
+                  launchUrl(Uri.parse(a.link));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    top: 12,
+                    bottom: 12,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    a.summary,
-                    style: AppTypography.bodyMedium.copyWith(
-                      color: c.textSecondary,
-                      height: 1.5,
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              a.title,
+                              style: AppTypography.titleMedium.copyWith(
+                                color: c.textPrimary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              a.summary,
+                              style: AppTypography.bodyMedium.copyWith(
+                                color: c.textSecondary,
+                                height: 1.5,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              a.date,
+                              style: AppTypography.monoSmall.copyWith(
+                                color: c.textMuted,
+                                fontSize: 9,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(
+                        Icons.open_in_new,
+                        color: c.textMuted.withAlpha(100),
+                        size: 20,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    a.date,
-                    style: AppTypography.monoSmall.copyWith(
-                      color: c.textMuted,
-                      fontSize: 9,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
@@ -585,21 +624,29 @@ const _articles = [
     title: 'The Accidental Ecosystem',
     summary: 'How fixing personal frustrations led to 15 packages on pub.dev.',
     date: 'Apr 14, 2026',
+    link:
+        'https://medium.com/@saikirankatayath/how-i-accidentally-built-a-14-package-flutter-ecosystem-21882300919f',
   ),
   _Article(
     title: 'Future-Proofing Flutter',
     summary: 'What happens when AI can generate UI code?',
     date: 'May 2, 2026',
+    link:
+        'https://medium.com/@saikirankatayath/how-i-future-proofed-my-14-package-flutter-ecosystem-against-ai-and-why-you-need-to-e705aecf0cd7?sharedUserId=saikirankatayath',
   ),
   _Article(
     title: 'Dependency Management at Scale',
     summary: 'Lessons from maintaining a 15-package ecosystem.',
     date: 'May 28, 2026',
+    link:
+        'https://medium.com/@saikirankatayath/flutter-dependency-management-in-2025-how-to-use-flutter-pub-deps-effectively-782080bef85e',
   ),
   _Article(
     title: 'The AI Shift and pub.dev',
     summary: 'How AI-assisted development changes the package ecosystem.',
     date: 'Jun 15, 2026',
+    link:
+        'https://medium.com/@saikirankatayath/the-ai-shift-nobody-is-talking-about-on-pub-dev-c2b45d2c7f0e',
   ),
 ];
 
@@ -608,10 +655,12 @@ class _Article {
     required this.title,
     required this.summary,
     required this.date,
+    required this.link,
   });
   final String title;
   final String summary;
   final String date;
+  final String link;
 }
 
 class _ExperienceColumn extends StatelessWidget {
@@ -640,10 +689,9 @@ class _ExperienceColumn extends StatelessWidget {
             role: 'Flutter Engineer',
             org: 'Enspirit',
             location: 'Hyderabad',
-            year: '2026',
+            year: '2025 – Present',
             highlights: [
-              'Rally Nation - Realtime sports based social platform',
-              'Pub.dev - Contributed to Flutter packages and open-source libraries',
+              'Rally Nation — Multi-platform sports app with 5 real-time multiplayer game modules (Socket.io, Hive offline fallback)',
             ],
             c: c,
           ),
@@ -654,19 +702,69 @@ class _ExperienceColumn extends StatelessWidget {
             location: 'Hyderabad',
             year: '2021 – 2025',
             highlights: [
-              'MoneyMinds — AI-powered personal finance app',
-              'TurthCather — NFT powered digital assests & collectibles',
-              'Aezo - AI-powered association trading platform',
-              'Test Scores — AI-powered test prep & learning platform',
-              'NuerallyMed — AI-powered medical exam prep platform',
-              'MechMonkey — Car Repair & maintenance management platform',
-              'Pub.dev - Contributed to Flutter packages and open-source libraries',
-              // 'ExoPlayer & media pipelines',
-              // 'Chunked upload engines',
-              // 'Firebase backends',
-              // 'Custom rendering',
+              'MoneyMinds — EdTech web app with MPEG-DASH adaptive video player and real-time chat',
+              'Truth Catcher — NFT app with custom high-res camera module and In-App Purchases',
+              'NeurallyMed — Exam prep platform with JWT auth, offline-first caching, and IAP gating',
+              'Aezo — Trade association app integrating Bubble.io no-code backend with custom UI',
             ],
             c: c,
+          ),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              border: Border.all(color: c.borderSubtle),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Common across all projects',
+                  style: AppTypography.labelLarge.copyWith(
+                    color: c.textMuted,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                _commonPoint(
+                  'Published to App Store & Google Play — code signing, compliance, release coordination',
+                  c,
+                ),
+                _commonPoint(
+                  'Firebase + Node.js backends with REST APIs and WebSockets',
+                  c,
+                ),
+                _commonPoint(
+                  'Full lifecycle ownership — Figma through to production deployment',
+                  c,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _commonPoint(String text, PortfolioColors c) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '— ',
+            style: AppTypography.monoSmall.copyWith(
+              color: c.textMuted,
+              fontSize: 10,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              text,
+              style: AppTypography.bodyMedium.copyWith(color: c.textSecondary),
+            ),
           ),
         ],
       ),
@@ -703,14 +801,17 @@ class _ExpCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                role,
-                style: AppTypography.titleMedium.copyWith(
-                  color: c.textPrimary,
-                  fontWeight: FontWeight.w600,
+              Flexible(
+                child: Text(
+                  role,
+                  style: AppTypography.titleMedium.copyWith(
+                    color: c.textPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const Spacer(),
+              const SizedBox(width: 8),
               Text(
                 year,
                 style: AppTypography.monoSmall.copyWith(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../core/design/app_colors.dart';
 import '../../core/design/app_typography.dart';
 
@@ -40,7 +41,8 @@ class PortfolioFooter extends StatelessWidget {
               ),
               _FootLink(
                 label: 'LINKEDIN',
-                url: 'https://www.linkedin.com/in/sai-kiran-katayath-6687941a5/',
+                url:
+                    'https://www.linkedin.com/in/sai-kiran-katayath-6687941a5/',
                 c: c,
               ),
               _FootLink(
@@ -96,9 +98,9 @@ class _FootLinkState extends State<_FootLink> {
             widget.label,
             style: AppTypography.monoSmall.copyWith(
               fontSize: 11,
-              color: _hover ? c.accent : c.background,
+              color: c.background,
               decoration: _hover ? TextDecoration.underline : null,
-              decorationColor: c.accent,
+              decorationColor: c.background,
             ),
           ),
         ),
