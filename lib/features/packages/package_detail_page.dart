@@ -175,7 +175,7 @@ class _RevealCurtainState extends State<_RevealCurtain>
             // Content
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: ResponsiveHelper.sectionHorizontalPadding(context),
+                horizontal: ResponsiveHelper.sectionH(context),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -309,8 +309,8 @@ class _DetailContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = PortfolioColors.of(context);
-    final hPad = ResponsiveHelper.sectionHorizontalPadding(context);
-    final vPad = ResponsiveHelper.sectionVerticalPadding(context);
+    final hPad = ResponsiveHelper.sectionH(context);
+    final vPad = ResponsiveHelper.sectionV(context);
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -360,7 +360,7 @@ class _DetailNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = PortfolioColors.of(context);
-    final hPad = ResponsiveHelper.sectionHorizontalPadding(context);
+    final hPad = ResponsiveHelper.sectionH(context);
 
     return Container(
       height: AppDimensions.navBarHeight,

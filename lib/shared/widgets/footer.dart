@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../core/constants/app_colors.dart';
-import '../../core/constants/app_strings.dart';
-import '../../core/constants/app_text_styles.dart';
-import '../../core/utils/responsive_helper.dart';
+import '../../core/design/app_colors.dart';
+import '../../core/design/app_typography.dart';
 
 class PortfolioFooter extends StatelessWidget {
   const PortfolioFooter({super.key});
@@ -11,14 +9,13 @@ class PortfolioFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = PortfolioColors.of(context);
-    final hPad = ResponsiveHelper.sectionHorizontalPadding(context);
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 28, horizontal: hPad),
+      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
       decoration: BoxDecoration(
         color: c.textPrimary,
-        border: Border(top: BorderSide(color: c.borderStrong, width: 2)),
+        border: Border(top: BorderSide(color: c.textPrimary)),
       ),
       child: Wrap(
         alignment: WrapAlignment.spaceBetween,
@@ -28,17 +25,32 @@ class PortfolioFooter extends StatelessWidget {
         children: [
           Text(
             'SAI KIRAN KATAYATH © ${DateTime.now().year}',
-            style: AppTextStyles.monoSmall.copyWith(color: c.background, fontSize: 11),
+            style: AppTypography.monoSmall.copyWith(
+              color: c.background,
+              fontSize: 11,
+            ),
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _FootLink(label: 'GITHUB', url: AppStrings.githubUrl, c: c),
-              _FootLink(label: 'LINKEDIN', url: AppStrings.linkedinUrl, c: c),
-              _FootLink(label: 'PUB.DEV', url: AppStrings.pubDevUrl, c: c),
+              _FootLink(
+                label: 'GITHUB',
+                url: 'https://github.com/Katayath-Sai-Kiran',
+                c: c,
+              ),
+              _FootLink(
+                label: 'LINKEDIN',
+                url: 'https://www.linkedin.com/in/sai-kiran-katayath-6687941a5/',
+                c: c,
+              ),
+              _FootLink(
+                label: 'PUB.DEV',
+                url: 'https://pub.dev/publishers/ksaikiran.dev/packages',
+                c: c,
+              ),
               _FootLink(
                 label: 'EMAIL',
-                url: 'mailto:${AppStrings.emailAddress}',
+                url: 'mailto:ksaikiran0407@gmail.com',
                 c: c,
                 last: true,
               ),
@@ -82,7 +94,7 @@ class _FootLinkState extends State<_FootLink> {
           padding: EdgeInsets.only(right: widget.last ? 0 : 18),
           child: Text(
             widget.label,
-            style: AppTextStyles.monoSmall.copyWith(
+            style: AppTypography.monoSmall.copyWith(
               fontSize: 11,
               color: _hover ? c.accent : c.background,
               decoration: _hover ? TextDecoration.underline : null,

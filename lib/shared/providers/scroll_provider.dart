@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 
 enum PortfolioSection {
-  home,
-  about,
-  engineering,
-  challenges,
+  hero,
+  featuredProject,
   openSource,
-  skills,
+  articles,
   experience,
-  writing,
   contact,
 }
 
 class ScrollProvider extends ChangeNotifier {
   final ScrollController scrollController = ScrollController();
-  // small debounce to avoid flooding listeners while scrolling
   bool _scheduled = false;
 
   final Map<PortfolioSection, GlobalKey> sectionKeys = {
     for (final s in PortfolioSection.values) s: GlobalKey(),
   };
 
-  PortfolioSection _activeSection = PortfolioSection.home;
+  PortfolioSection _activeSection = PortfolioSection.hero;
   PortfolioSection get activeSection => _activeSection;
 
   ScrollProvider() {
@@ -39,7 +35,6 @@ class ScrollProvider extends ChangeNotifier {
 
   void _updateActiveSectionFromScroll() {
     try {
-      // Find the section whose top is closest to the scroll offset
       final positions = <PortfolioSection, double>{};
       for (final entry in sectionKeys.entries) {
         final ctx = entry.value.currentContext;
@@ -50,14 +45,11 @@ class ScrollProvider extends ChangeNotifier {
         positions[entry.key] = top;
       }
       if (positions.isEmpty) return;
-      // Sort by absolute distance to top (y coordinate)
       final active = positions.entries.reduce((a, b) {
         return (a.value.abs() < b.value.abs()) ? a : b;
       }).key;
       setActiveSection(active);
-    } catch (_) {
-      // ignore errors during measurement
-    }
+    } catch (_) {}
   }
 
   void setActiveSection(PortfolioSection section) {
