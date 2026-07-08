@@ -4,9 +4,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/design/app_colors.dart';
 import '../../core/design/app_typography.dart';
+import '../../data/models/package_model.dart';
+import '../../data/package_data.dart';
 import '../../shared/providers/scroll_provider.dart';
 import '../../shared/widgets/footer.dart';
 import '../../shared/widgets/nav_bar.dart';
+import 'widgets/category_header.dart';
+import 'widgets/pkg_grid.dart';
+import 'widgets/pkg_stat_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -325,6 +330,16 @@ class _OpenSourceSection extends StatelessWidget {
     final isMobile = MediaQuery.sizeOf(context).width < 768;
     final hPad = isMobile ? 24.0 : 64.0;
 
+    final aiPkgs = allPackages
+        .where((p) => p.category == PkgCategory.onDeviceAI)
+        .toList();
+    final textPkgs = allPackages
+        .where((p) => p.category == PkgCategory.textUI)
+        .toList();
+    final utilPkgs = allPackages
+        .where((p) => p.category == PkgCategory.devUtilities)
+        .toList();
+
     return Container(
       key: context
           .read<ScrollProvider>()
@@ -340,155 +355,126 @@ class _OpenSourceSection extends StatelessWidget {
               color: c.textMuted,
               fontSize: 10,
               letterSpacing: 1.5,
+              height: 1,
             ),
           ),
           const SizedBox(height: 16),
-          Text(
-            '15 packages on pub.dev',
-            style: isMobile
-                ? AppTypography.headlineLarge
-                : AppTypography.displayMedium,
+          Center(
+            child: Text(
+              'ecosystem',
+              style: isMobile
+                  ? AppTypography.headlineLarge.copyWith(
+                      fontStyle: FontStyle.italic,
+                      color: c.accent,
+                      height: 1.0,
+                    )
+                  : AppTypography.displayMedium.copyWith(
+                      fontStyle: FontStyle.italic,
+                      color: c.accent,
+                      height: 1,
+                    ),
+            ),
           ),
-          const SizedBox(height: 24),
-          ...List.generate(_categories.length, (i) {
-            final cat = _categories[i];
-            return Padding(
-              padding: EdgeInsets.only(top: i == 0 ? 0 : 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    cat.name,
-                    style: AppTypography.titleMedium.copyWith(
-                      color: c.textPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  ...cat.packages.map(
-                    (pkg) => Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: Text(
-                        '${pkg.name} — ${pkg.description}',
-                        style: AppTypography.bodyMedium.copyWith(
-                          color: c.textSecondary,
-                          height: 1.5,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
+          const SizedBox(height: 28),
+          _StatsRow(c: c, isMobile: isMobile),
+          const SizedBox(height: 64),
+          Text(
+            'AI ECOSYSTEM',
+            style: AppTypography.monoSmall.copyWith(
+              color: c.textMuted,
+              fontSize: 9,
+              letterSpacing: 1.2,
+            ),
+          ),
+          // const SizedBox(height: 16),
+          // const AiEcosystemChart(),
+          const SizedBox(height: 48),
+          _CategoryBlock(
+            label: 'On-Device AI',
+            icon: Icons.auto_awesome,
+            packages: aiPkgs,
+            c: c,
+          ),
+          const SizedBox(height: 40),
+          _CategoryBlock(
+            label: 'Text & UI',
+            icon: Icons.text_fields,
+            packages: textPkgs,
+            c: c,
+          ),
+          const SizedBox(height: 40),
+          _CategoryBlock(
+            label: 'Developer Utilities',
+            icon: Icons.build,
+            packages: utilPkgs,
+            c: c,
+          ),
         ],
       ),
     );
   }
 }
 
-class _Category {
-  const _Category({required this.name, required this.packages});
-  final String name;
-  final List<_Pkg> packages;
+class _StatsRow extends StatelessWidget {
+  const _StatsRow({required this.c, required this.isMobile});
+  final PortfolioColors c;
+  final bool isMobile;
+
+  @override
+  Widget build(BuildContext context) {
+    final stats = [
+      ('15', 'Packages'),
+      ('3', 'Categories'),
+      ('3', 'AI Ecosystem'),
+      ('2500+', 'Downloads'),
+    ];
+    if (isMobile) {
+      return Wrap(
+        spacing: 32,
+        runSpacing: 20,
+        children: stats
+            .map((s) => PkgStatCard(value: s.$1, label: s.$2))
+            .toList(),
+      );
+    }
+    return Row(
+      children: List.generate(stats.length, (i) {
+        final s = stats[i];
+        return Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [PkgStatCard(value: s.$1, label: s.$2)],
+          ),
+        );
+      }),
+    );
+  }
 }
 
-class _Pkg {
-  const _Pkg({required this.name, required this.description});
-  final String name;
-  final String description;
-}
+class _CategoryBlock extends StatelessWidget {
+  const _CategoryBlock({
+    required this.label,
+    required this.icon,
+    required this.packages,
+    required this.c,
+  });
+  final String label;
+  final IconData icon;
+  final List<PackageModel> packages;
+  final PortfolioColors c;
 
-const _categories = [
-  _Category(
-    name: 'On-Device AI',
-    packages: [
-      _Pkg(
-        name: 'ai_core_codespark',
-        description:
-            'Core embedding engine with offline MiniLM model for semantic understanding',
-      ),
-      _Pkg(
-        name: 'semantic_search_codespark',
-        description:
-            'Query-driven semantic search with debounced input and MMR diversity ranking',
-      ),
-      _Pkg(
-        name: 'smart_suggestions_codespark',
-        description:
-            'Anchor-based recommendations with MMR diverse ranking and centroid matching',
-      ),
-    ],
-  ),
-  _Category(
-    name: 'Text & UI',
-    packages: [
-      _Pkg(
-        name: 'text_comparison_score_codespark',
-        description:
-            'String similarity using Levenshtein, Damerau-Levenshtein, and Jaro-Winkler algorithms',
-      ),
-      _Pkg(
-        name: 'text_highlight_codespark',
-        description:
-            'Text highlighting with single, multiple, and regex query support',
-      ),
-      _Pkg(
-        name: 'rich_highlight_text_codespark',
-        description:
-            'Inline substring highlighting using Text.rich with custom styles',
-      ),
-      _Pkg(
-        name: 'dual_tone_text_codespark',
-        description:
-            'Dual-tone gradient text rendering with vertical and horizontal color splits',
-      ),
-      _Pkg(
-        name: 'curved_text_codespark',
-        description:
-            'Render text along circular, spiral, wave, elliptical, or custom paths',
-      ),
-      _Pkg(
-        name: 'date_formatter_codespark',
-        description:
-            'DateTime extensions for formatting, relative time, time ago, and business day calculations',
-      ),
-      _Pkg(
-        name: 'animated_dropdown_search_codespark',
-        description: 'Customisable animated search dropdown widget',
-      ),
-      _Pkg(
-        name: 'read_more_codespark',
-        description:
-            'Expandable text widget for long-form content with customizable truncation',
-      ),
-      _Pkg(
-        name: 'icon_to_text_extension_codespark',
-        description:
-            'Convert any IconData to inline Text or TextSpan with rich text builder',
-      ),
-    ],
-  ),
-  _Category(
-    name: 'Developer Utilities',
-    packages: [
-      _Pkg(
-        name: 'advanced_text_input_formatters_codespark',
-        description:
-            'Extended input text formatter utilities for Flutter TextFields',
-      ),
-      _Pkg(
-        name: 'internet_quality_codespark',
-        description:
-            'Measure real-world internet quality using latency-based analysis',
-      ),
-      _Pkg(
-        name: 'context_extensions_codespark',
-        description: 'Build context utility extensions for cleaner widget code',
-      ),
-    ],
-  ),
-];
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CategoryHeader(category: packages.first.category),
+        const SizedBox(height: 16),
+        PkgGrid(packages: packages),
+      ],
+    );
+  }
+}
 
 // ──────────────────────────────────────────────
 // ARTICLES + EXPERIENCE
