@@ -45,7 +45,7 @@ void main() {
     await pumpApp(tester);
     final context = tester.element(find.byType(MaterialApp));
     final provider = Provider.of<ScrollProvider>(context, listen: false);
-    expect(provider.activeSection, PortfolioSection.preface);
+    expect(provider.activeSection, PortfolioSection.hero);
     expect(provider, isNotNull);
   });
 
@@ -56,9 +56,9 @@ void main() {
     int notifyCount = 0;
     provider.addListener(() => notifyCount++);
 
-    provider.setActiveSection(PortfolioSection.manifesto);
+    provider.setActiveSection(PortfolioSection.featuredProject);
 
-    expect(provider.activeSection, PortfolioSection.manifesto);
+    expect(provider.activeSection, PortfolioSection.articles);
     expect(notifyCount, 1);
     provider.dispose();
   });
@@ -70,7 +70,7 @@ void main() {
     int notifyCount = 0;
     provider.addListener(() => notifyCount++);
 
-    provider.setActiveSection(PortfolioSection.preface);
+    provider.setActiveSection(PortfolioSection.hero);
 
     expect(notifyCount, 0);
     provider.dispose();
