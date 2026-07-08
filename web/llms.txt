@@ -1,0 +1,44 @@
+# Sai Kiran Katayath — Flutter Engineer
+> Flutter engineer building 15 open-source packages for on-device AI, text rendering, and developer workflows.
+
+## About
+- **Name:** Sai Kiran Katayath
+- **Role:** Flutter Engineer
+- **Location:** Hyderabad, India
+- **GitHub:** https://github.com/Katayath-Sai-Kiran
+- **LinkedIn:** https://www.linkedin.com/in/katayath-sai-kiran/
+- **Medium:** https://medium.com/@ksaikiran0407
+- **pub.dev:** https://pub.dev/publishers/katayath.dev/packages
+
+## Packages (15 on pub.dev)
+
+### On-Device AI
+- **ai_core_codespark** — Core embedding engine with offline MiniLM model (23MB). Powers semantic understanding without a server.
+- **smart_suggestions_codespark** — Anchor-based item recommendations with MMR diversity ranking. Typed exceptions, web-compatible persistence.
+- **semantic_search_codespark** — Query-driven semantic search with debounced input, MMR diversity, and typed results.
+
+### Text & UI
+- **dual_tone_text_codespark** — Dual-tone gradient text rendering with vertical/horizontal color splits.
+- **horizon_scroll_codespark** — Parallax horizontal scroll layouts.
+- **animated_percentage_indicator_codespark** — Animated percentage and progress indicators.
+- **golden_rectangle_clipper_codespark** — Golden ratio-based clip shapes.
+- **context_extensions_codespark** — Build context utility extensions.
+- **dynamic_border_codespark** — Animated border widgets.
+- **glass_morphism_codespark** — Frosted glass UI effects.
+- **responsive_text_codespark** — Auto-scaling responsive text.
+- **custom_icon_loader** — Custom loading indicators and icon utilities.
+
+### Developer Utilities
+- **resumable_upload** — Chunked file upload with retry logic and progress tracking for unreliable networks.
+- **custom_media_player** — ExoPlayer-based video player with custom controls and playlist management.
+- **text_renderer** — Rich text rendering with custom painter-based layouts.
+
+## Articles (Medium)
+1. **The Accidental Ecosystem** (Apr 14, 2026) — How fixing personal frustrations led to 15 packages on pub.dev.
+2. **Future-Proofing Flutter** (May 2, 2026) — What happens when AI can generate UI code.
+3. **Dependency Management at Scale** (May 28, 2026) — Lessons from maintaining a 15-package ecosystem.
+4. **The AI Shift and pub.dev** (Jun 15, 2026) — How AI-assisted development changes the package ecosystem.
+
+## Experience
+- **Flutter Engineer @ Enspirit** (2026) — 15 packages on pub.dev, on-device ML ecosystem, semantic search & suggestions.
+- **Flutter Developer @ Wielabs** (2021–2025) — ExoPlayer pipelines, chunked upload engines, Firebase backends, custom rendering.

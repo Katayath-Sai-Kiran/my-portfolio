@@ -1,8 +1,7 @@
 <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
-  <rect width='512' height='512' fill='#E53310'/>
+  <rect width='512' height='512' fill='#000000'/>
   <g font-family='Archivo, Helvetica Neue, Helvetica, Arial, sans-serif' font-weight='900' font-size='300' letter-spacing='-14' fill='#FFFFFF'>
     <text x='50%' y='56%' dominant-baseline='middle' text-anchor='middle'>SK</text>
   </g>
-  <!-- brutalist accent: hard ink square, top-right -->
-  <rect x='430' y='42' width='40' height='40' fill='#0A0A08'/>
+  <rect x='430' y='42' width='40' height='40' fill='#FFFFFF'/>
 </svg>
