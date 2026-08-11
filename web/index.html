@@ -93,8 +93,82 @@
 
   <!-- ═══ LLM DISCOVERY ═══ -->
   <link rel="llms" href="/llms.txt" type="text/plain">
+  <link rel="api-catalog" href="/.well-known/api-catalog">
+  <link rel="agent-skills" href="/.well-known/agent-skills/index.json">
+  <link rel="mcp-server" href="/.well-known/mcp/server-card.json">
+  <link rel="author" href="https://github.com/Katayath-Sai-Kiran">
+  <link rel="service-doc" href="https://pub.dev/publishers/ksaikiran.dev/packages">
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
+  <script>
+    if (navigator?.modelContext?.provideContext) {
+      const packages = [
+        "ai_core_codespark", "semantic_search_codespark", "smart_sort_codespark",
+        "text_comparison_score_codespark", "text_highlight_codespark",
+        "rich_highlight_text_codespark", "dual_tone_text_codespark",
+        "curved_text_codespark", "date_formatter_codespark",
+        "animated_dropdown_search_codespark", "read_more_codespark",
+        "icon_to_text_extension_codespark", "advanced_text_input_formatters_codespark",
+        "internet_quality_codespark", "context_extensions_codespark"
+      ];
+
+      navigator.modelContext.provideContext({
+        tools: [
+          {
+            name: 'list_all_packages',
+            description: 'List all 15 open-source Flutter packages with their categories',
+            inputSchema: { type: 'object', properties: {} },
+            execute: async () => ({ packages })
+          },
+          {
+            name: 'get_package_details',
+            description: 'Get details of a specific Flutter package by name',
+            inputSchema: {
+              type: 'object',
+              properties: {
+                name: { type: 'string', enum: packages }
+              },
+              required: ['name']
+            },
+            execute: async ({ name }) => {
+              const slug = name.replace(/_/g, '-');
+              window.location.href = '/#/packages/' + slug;
+              return { status: 'redirected', to: '/#/packages/' + slug };
+            }
+          },
+          {
+            name: 'search_packages',
+            description: 'Search Flutter packages by keyword or category',
+            inputSchema: {
+              type: 'object',
+              properties: { query: { type: 'string' } },
+              required: ['query']
+            },
+            execute: async ({ query }) => {
+              window.location.hash = query;
+              return { status: 'redirected', query };
+            }
+          },
+          {
+            name: 'view_case_study',
+            description: 'View the engineering case study behind a specific package',
+            inputSchema: {
+              type: 'object',
+              properties: {
+                package_name: { type: 'string', enum: packages }
+              },
+              required: ['package_name']
+            },
+            execute: async ({ package_name }) => {
+              const slug = package_name.replace(/_/g, '-');
+              window.location.href = '/#/packages/' + slug;
+              return { status: 'redirected', to: '/#/packages/' + slug };
+            }
+          }
+        ]
+      });
+    }
+  </script>
 </body>
 </html>

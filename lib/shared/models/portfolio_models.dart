@@ -78,25 +78,7 @@ class ChallengeModel {
 enum PackageStatus { live, comingSoon }
 
 /// Groups packages under titled sets on the Open Source section.
-enum PackageCategory {
-  ai(
-    'On-Device AI',
-    'Local, offline intelligence — embeddings, semantic search, and the '
-        'engine that powers them. No API keys, no cloud.',
-  ),
-  utility(
-    'Flutter Utilities',
-    'Small, focused tools that remove boilerplate from everyday Flutter work.',
-  );
-
-  const PackageCategory(this.title, this.blurb);
-
-  /// Section title shown above the group.
-  final String title;
-
-  /// One-line description shown under the group title.
-  final String blurb;
-}
+enum PkgCategory { onDeviceAI, textUI, devUtilities }
 
 /// The texture of a case-study beat — drives its label, colour, and icon so the
 /// story reads as a real build log (decisions, setbacks, problems, wins).
@@ -152,9 +134,11 @@ class OpenSourcePackage {
     this.problem,
     this.relatedPackages = const [],
     this.status = PackageStatus.live,
-    this.category = PackageCategory.utility,
+    this.category = PkgCategory.devUtilities,
     this.caseStudy,
-  });
+    this.isFeatured = false,
+    String? displayName,
+  }) : _displayNameOverride = displayName;
 
   final String name;
 
@@ -183,10 +167,15 @@ class OpenSourcePackage {
   final PackageStatus status;
 
   /// Which titled set this package belongs to.
-  final PackageCategory category;
+  final PkgCategory category;
 
   /// Optional long-form engineering story shown on the detail page.
   final CaseStudy? caseStudy;
+
+  /// Whether this package is highlighted in the home grid.
+  final bool isFeatured;
+
+  final String? _displayNameOverride;
 
   bool get isComingSoon => status == PackageStatus.comingSoon;
   bool get isLive => status == PackageStatus.live;
@@ -194,16 +183,13 @@ class OpenSourcePackage {
   /// URL-safe slug derived from the package name.
   String get slug => name.replaceAll('_', '-');
 
-  /// Display name: strips the `_codespark` suffix for cleaner headings.
+  /// Display name: an explicit override if given, otherwise the name with
+  /// the `_codespark` suffix stripped and each word capitalized.
   String get displayName =>
-      name.replaceAll('_codespark', '').replaceAll('_', ' ').trim();
-}
-
-/// Technical writing article card (Technical Writing section).
-class WritingArticle {
-  const WritingArticle({required this.title, required this.summary, this.url});
-
-  final String title;
-  final String summary;
-  final String? url;
+      _displayNameOverride ??
+      name
+          .replaceAll('_codespark', '')
+          .split('_')
+          .map((w) => w.isEmpty ? w : '${w[0].toUpperCase()}${w.substring(1)}')
+          .join(' ');
 }

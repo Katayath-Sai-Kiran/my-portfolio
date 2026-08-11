@@ -30,15 +30,15 @@ class ManifestoSection extends StatelessWidget {
           'that others share. Ship it properly once, and the ecosystem improves '
           'for everyone.',
     ),
-    // _Principle(
-    //   number: '03',
-    //   tag: 'CRAFT',
-    //   title: 'Design matters at every layer',
-    //   body:
-    //       'API surface is UX. Type signatures are prose. Error messages are '
-    //       'documentation. A package should feel good to hold in your hands — '
-    //       'predictable, discoverable, and honest about what it does and doesn\'t do.',
-    // ),
+    _Principle(
+      number: '03',
+      tag: 'CRAFT',
+      title: 'Design matters at every layer',
+      body:
+          'API surface is UX. Type signatures are prose. Error messages are '
+          'documentation. A package should feel good to hold in your hands — '
+          'predictable, discoverable, and honest about what it does and doesn\'t do.',
+    ),
     _Principle(
       number: '04',
       tag: 'ECOSYSTEM',
@@ -56,10 +56,9 @@ class ManifestoSection extends StatelessWidget {
     final c = PortfolioColors.of(context);
     final isMobile = ResponsiveHelper.isMobile(context);
     final hPad = ResponsiveHelper.sectionH(context);
-
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(gradient: AppGradients.forManifesto(c)),
+      decoration: BoxDecoration(color: c.background),
       padding: EdgeInsets.symmetric(
         horizontal: hPad,
         vertical: ResponsiveHelper.sectionV(context),
@@ -103,10 +102,15 @@ class _SectionHeader extends StatelessWidget {
         const SizedBox(height: AppSpacing.sm),
         RichText(
           text: TextSpan(
-            style: isMobile ? AppTypography.headlineMedium : AppTypography.displayLarge,
+            style: isMobile
+                ? AppTypography.headlineMedium
+                : AppTypography.displayLarge.copyWith(color: c.accent),
             children: [
               TextSpan(text: 'The principles behind the '),
-              TextSpan(text: 'packages', style: TextStyle(fontStyle: FontStyle.italic, color: c.accent)),
+              TextSpan(
+                text: 'packages',
+                style: TextStyle(fontStyle: FontStyle.italic, color: c.accent),
+              ),
             ],
           ),
         ).animate().fadeIn(delay: 100.ms, duration: 500.ms),
@@ -146,9 +150,13 @@ class _PrincipleCard extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.all(isMobile ? AppSpacing.lg : AppSpacing.xl),
           decoration: BoxDecoration(
-            gradient: AppGradients.forQuote(c),
+            gradient: AppGradients.forCard(c),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: c.borderSubtle),
+            border: Border.all(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? c.border
+                  : c.borderSubtle,
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,7 +176,11 @@ class _PrincipleCard extends StatelessWidget {
                   Text(
                     principle.number,
                     style: AppTypography.displayLarge.copyWith(
-                      color: c.accent.withValues(alpha: 0.12),
+                      color: c.accent.withValues(
+                        alpha: Theme.of(context).brightness == Brightness.dark
+                            ? 0.25
+                            : 0.12,
+                      ),
                       fontSize: isMobile ? 40 : 52,
                       height: 0.9,
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+
 import '../../core/design/app_colors.dart';
 import '../../core/design/app_gradients.dart';
 import '../../core/design/app_spacing.dart';
@@ -17,19 +18,19 @@ class NowSection extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(gradient: AppGradients.forNow(c)),
+      decoration: BoxDecoration(color: c.background),
       padding: EdgeInsets.symmetric(
         horizontal: hPad,
         vertical: ResponsiveHelper.sectionV(context),
       ),
       child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _Header(c: c, isMobile: isMobile),
-              SizedBox(height: isMobile ? AppSpacing.xxl : AppSpacing.huge),
-              _FocusGrid(c: c, isMobile: isMobile),
-            ],
-          ),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _Header(c: c, isMobile: isMobile),
+          SizedBox(height: isMobile ? AppSpacing.xxl : AppSpacing.huge),
+          _FocusGrid(c: c, isMobile: isMobile),
+        ],
+      ),
     );
   }
 }
@@ -78,15 +79,22 @@ class _Header extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('NOW', style: AppTypography.monoSmall.copyWith(color: c.accent))
-            .animate().fadeIn(duration: 400.ms),
+        Text(
+          'NOW',
+          style: AppTypography.monoSmall.copyWith(color: c.accent),
+        ).animate().fadeIn(duration: 400.ms),
         const SizedBox(height: AppSpacing.sm),
         RichText(
           text: TextSpan(
-            style: isMobile ? AppTypography.headlineMedium : AppTypography.displayLarge,
+            style: isMobile
+                ? AppTypography.headlineMedium
+                : AppTypography.displayLarge.copyWith(color: c.accent),
             children: [
               TextSpan(text: 'Currently focused '),
-              TextSpan(text: 'here', style: TextStyle(fontStyle: FontStyle.italic, color: c.accent)),
+              TextSpan(
+                text: 'here',
+                style: TextStyle(fontStyle: FontStyle.italic, color: c.accent),
+              ),
             ],
           ),
         ).animate().fadeIn(delay: 100.ms, duration: 500.ms),
@@ -144,7 +152,11 @@ class _FocusCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: AppGradients.forCard(c),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: c.borderSubtle),
+        border: Border.all(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? c.border
+              : c.borderSubtle,
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +164,11 @@ class _FocusCard extends StatelessWidget {
           Text(
             focus.icon,
             style: AppTypography.headlineLarge.copyWith(
-              color: c.accent.withValues(alpha: 0.3),
+              color: c.accent.withValues(
+                alpha: Theme.of(context).brightness == Brightness.dark
+                    ? 0.5
+                    : 0.3,
+              ),
               fontSize: 28,
             ),
           ),
@@ -163,7 +179,9 @@ class _FocusCard extends StatelessWidget {
               children: [
                 Text(
                   focus.title,
-                  style: AppTypography.titleLarge.copyWith(color: c.textPrimary),
+                  style: AppTypography.titleLarge.copyWith(
+                    color: c.textPrimary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(

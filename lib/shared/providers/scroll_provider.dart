@@ -6,6 +6,8 @@ enum PortfolioSection {
   openSource,
   articles,
   experience,
+  manifesto,
+  now,
   contact,
 }
 

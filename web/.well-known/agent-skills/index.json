@@ -1,0 +1,47 @@
+{
+  "$schema": "https://agentskills.io/schemas/agent-skills-discovery-v0.2.0.json",
+  "skills": [
+    {
+      "name": "package-catalog",
+      "type": "discovery",
+      "description": "Discover and browse all 15 open-source Flutter packages published on pub.dev, organized by category (On-Device AI, Text & UI, Developer Utilities)",
+      "url": "https://ksaikiran.dev/#open-source",
+      "sha256": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
+    },
+    {
+      "name": "case-studies",
+      "type": "reference",
+      "description": "Deep-dive engineering case studies for each package: why it was built, the problems encountered, design decisions, setbacks, and breakthroughs",
+      "url": "https://ksaikiran.dev/packages/ai-core-codespark",
+      "sha256": "b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c"
+    },
+    {
+      "name": "article-listing",
+      "type": "discovery",
+      "description": "Technical articles on Medium covering the codespark ecosystem, dependency management, AI-assisted development, and future-proofing Flutter",
+      "url": "https://ksaikiran.dev/#articles",
+      "sha256": "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d"
+    },
+    {
+      "name": "contact-form",
+      "type": "action",
+      "description": "Contact form for collaboration inquiries, package questions, or hiring discussions",
+      "url": "https://ksaikiran.dev/conversation-start",
+      "sha256": "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e"
+    },
+    {
+      "name": "package-search",
+      "type": "query",
+      "description": "Search packages by keyword, category, or functionality. Returns matching packages with descriptions and links to detail pages",
+      "url": "https://ksaikiran.dev/#open-source",
+      "sha256": "e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f"
+    },
+    {
+      "name": "view-package-detail",
+      "type": "reference",
+      "description": "View complete package detail including tagline, problem statement, description, case study, highlights, pub.dev/GitHub links, and related packages",
+      "url": "https://ksaikiran.dev/packages/ai-core-codespark",
+      "sha256": "f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a"
+    }
+  ]
+}

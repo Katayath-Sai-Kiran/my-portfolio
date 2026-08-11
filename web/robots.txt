@@ -1,6 +1,19 @@
 User-agent: *
 Allow: /
 
+# Explicitly whitelist AI crawlers
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 # Disallow build artifacts
 Disallow: /flutter_bootstrap.js
 Disallow: /flutter.js
@@ -10,6 +23,9 @@ Disallow: /canvaskit/
 
 # LLM indexing
 Allow: /llms.txt
+
+# Content Signals — AI training preference
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 
 # Sitemap
 Sitemap: https://ksaikiran.dev/sitemap.xml

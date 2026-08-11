@@ -1,0 +1,22 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://ksaikiran.dev/",
+      "service-desc": [
+        "https://ksaikiran.dev/.well-known/api-catalog"
+      ],
+      "service-doc": [
+        "https://pub.dev/publishers/ksaikiran.dev/packages"
+      ]
+    },
+    {
+      "anchor": "https://ksaikiran.dev/.well-known/agent-skills/index.json",
+      "service-desc": [
+        "https://ksaikiran.dev/.well-known/agent-skills/index.json"
+      ],
+      "service-doc": [
+        "https://ksaikiran.dev/.well-known/agent-skills/index.json"
+      ]
+    }
+  ]
+}

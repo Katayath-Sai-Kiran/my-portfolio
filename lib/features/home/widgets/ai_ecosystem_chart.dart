@@ -2,41 +2,35 @@ import 'package:flutter/material.dart';
 
 import '../../../core/design/app_colors.dart';
 import '../../../core/design/app_typography.dart';
-import '../../../data/models/package_model.dart';
+import '../../../shared/models/portfolio_models.dart';
 
 class AiEcosystemChart extends StatelessWidget {
   const AiEcosystemChart({super.key});
 
-  static const _root = PackageModel(
+  static const _root = OpenSourcePackage(
     name: 'ai_core_codespark',
     displayName: 'AI Core',
     description: 'Offline embedding engine',
     category: PkgCategory.onDeviceAI,
     tags: ['23MB MiniLM', 'Semantic'],
-    pubUrl: '',
-    githubUrl: '',
     isFeatured: true,
   );
 
   static const _children = [
-    PackageModel(
+    OpenSourcePackage(
       name: 'semantic_search_codespark',
       displayName: 'Semantic Search',
       description: 'Query-driven search',
       category: PkgCategory.onDeviceAI,
       tags: ['MMR', 'Debounced'],
-      pubUrl: '',
-      githubUrl: '',
       isFeatured: true,
     ),
-    PackageModel(
+    OpenSourcePackage(
       name: 'smart_suggestions_codespark',
       displayName: 'Smart Suggestions',
       description: 'Anchor-based recommendations',
       category: PkgCategory.onDeviceAI,
       tags: ['MMR', 'Centroid'],
-      pubUrl: '',
-      githubUrl: '',
       isFeatured: true,
     ),
   ];
@@ -76,7 +70,7 @@ class AiEcosystemChart extends StatelessWidget {
 
 class _NodeCard extends StatelessWidget {
   const _NodeCard({required this.pkg, required this.c, required this.isRoot});
-  final PackageModel pkg;
+  final OpenSourcePackage pkg;
   final PortfolioColors c;
   final bool isRoot;
 

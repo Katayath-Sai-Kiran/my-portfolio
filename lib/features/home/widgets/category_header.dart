@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/design/app_colors.dart';
 import '../../../core/design/app_typography.dart';
-import '../../../data/models/package_model.dart';
+import '../../../shared/models/portfolio_models.dart';
 
 class CategoryHeader extends StatelessWidget {
   const CategoryHeader({required this.category, super.key});

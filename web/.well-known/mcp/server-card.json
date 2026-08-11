@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "ksaikiran.dev Portfolio",
+    "version": "1.0.0"
+  },
+  "capabilities": {
+    "resources": {
+      "packages": "List and describe open-source Flutter packages",
+      "articles": "Read technical blog posts and articles",
+      "case-studies": "Read engineering case studies for each package"
+    },
+    "tools": {
+      "supported": ["list", "read", "search"],
+      "authentication": "none"
+    }
+  },
+  "transport": {
+    "type": "static",
+    "baseUrl": "https://ksaikiran.dev"
+  }
+}

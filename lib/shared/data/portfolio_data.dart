@@ -146,8 +146,10 @@ abstract final class PortfolioData {
     // ── On-Device AI set ────────────────────────────────────────────────────
     OpenSourcePackage(
       name: 'ai_core_codespark',
-      category: PackageCategory.ai,
+      displayName: 'AI Core',
+      category: PkgCategory.onDeviceAI,
       status: PackageStatus.live,
+      isFeatured: true,
       version: '0.1.1',
       publishedOn: DateTime.parse('2026-06-24'),
       tagline: 'On-device text embeddings for Flutter — offline, no API keys.',
@@ -304,8 +306,11 @@ abstract final class PortfolioData {
     ),
     OpenSourcePackage(
       name: 'semantic_search_codespark',
-      category: PackageCategory.ai,
-      status: PackageStatus.comingSoon,
+      category: PkgCategory.onDeviceAI,
+      status: PackageStatus.live,
+      isFeatured: true,
+      pubUrl: 'https://pub.dev/packages/semantic_search_codespark',
+      githubUrl: 'https://github.com/Katayath-Sai-Kiran/semantic_search_codespark',
       tagline: 'Offline semantic search — match by meaning, not spelling.',
       problem:
           'Keyword and fuzzy search miss anything phrased differently. A user '
@@ -355,8 +360,24 @@ abstract final class PortfolioData {
       ),
     ),
     OpenSourcePackage(
+      name: 'smart_suggestions_codespark',
+      category: PkgCategory.onDeviceAI,
+      status: PackageStatus.live,
+      isFeatured: true,
+      tagline: 'Anchor-based recommendations, entirely on-device.',
+      problem: 'Recommendations needed a database. What if they didn\'t?',
+      description:
+          'Anchor-based recommendation engine built on the same on-device '
+          'embeddings as the rest of the AI set — ranks suggestions by '
+          'meaning without a server or a database.',
+      tags: ['MMR', 'Centroid', 'Web'],
+      relatedPackages: ['ai_core_codespark', 'semantic_search_codespark'],
+      pubUrl: 'https://pub.dev/packages/smart_suggestions_codespark',
+      githubUrl: 'https://github.com/Katayath-Sai-Kiran/smart_suggestions_codespark',
+    ),
+    OpenSourcePackage(
       name: 'smart_sort_codespark',
-      category: PackageCategory.ai,
+      category: PkgCategory.onDeviceAI,
       status: PackageStatus.comingSoon,
       tagline: 'Hybrid ranking — semantic meaning and fuzzy spelling, fused.',
       problem:
@@ -398,7 +419,7 @@ abstract final class PortfolioData {
     ),
     OpenSourcePackage(
       name: 'intent_detector_codespark',
-      category: PackageCategory.ai,
+      category: PkgCategory.onDeviceAI,
       status: PackageStatus.comingSoon,
       tagline: 'On-device intent classification, zero training.',
       problem:
@@ -435,6 +456,7 @@ abstract final class PortfolioData {
       version: '0.0.6',
       publishedOn: DateTime.parse('2025-05-26'),
       name: 'text_comparison_score_codespark',
+      category: PkgCategory.textUI,
       downloads: 712,
       tagline: 'Fuzzy string matching for Flutter apps.',
       problem:
@@ -446,12 +468,43 @@ abstract final class PortfolioData {
           'distance. Built for fuzzy matching in quiz and search scenarios.',
       relatedPackages: ['text_highlight_codespark', 'rich_highlight_text_codespark'],
       tags: ['textcomparison', 'compare', 'score', 'levenshtein'],
+      caseStudy: CaseStudy(
+        summary:
+            'Built for a quiz app that needed fuzzy answer matching — accept '
+            '"Barack Obama" when the user types "barack obama" or even "obama '
+            'barack". Dart has no built-in string similarity, so I implemented '
+            'Levenshtein distance and Jaro-Winkler from scratch.',
+        highlights: ['Levenshtein + Jaro-Winkler algorithms', '712+ downloads'],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.problem,
+            heading: 'Quizzes need fuzzy matching',
+            body:
+                'A quiz feature needed to accept near-correct answers: "barack '
+                'obama" should match "Barack Obama", and minor typos should be '
+                'accepted. Dart\'s core library has no string comparison beyond '
+                'exact equality — no Levenshtein, no similarity scoring.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: 'Implementing the algorithms from scratch',
+            body:
+                'I implemented Levenshtein distance for edit-distance scoring '
+                'and Jaro-Winkler for prefix-heavy matching (common in names). '
+                'The result: a flexible similarity API that returns a score '
+                '(0.0–1.0) instead of a boolean, so apps can set their own '
+                'thresholds.',
+          ),
+        ],
+      ),
       pubUrl: 'https://pub.dev/packages/text_comparison_score_codespark',
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/text_comparison_score_codespark',
     ),
     OpenSourcePackage(
       downloads: 164,
       name: 'animated_dropdown_search_codespark',
+      category: PkgCategory.textUI,
+      isFeatured: true,
       tagline: 'Searchable, animated dropdowns that scale.',
       problem:
           'Flutter\'s built-in DropdownButton collapses with 30+ items and '
@@ -462,12 +515,56 @@ abstract final class PortfolioData {
           'Built when a client needed searchable selects across 200+ items.',
       relatedPackages: ['advanced_text_input_formatters_codespark'],
       tags: ['dropdown', 'search', 'animation', 'highlighting'],
+      caseStudy: CaseStudy(
+        summary:
+            'The package that started the whole codespark ecosystem. A client '
+            'needed a searchable select over 200+ items and Flutter\'s built-in '
+            'DropdownButton couldn\'t handle it — so I built one from scratch '
+            'and published it just to learn the pub.dev workflow.',
+        highlights: [
+          'Kicked off the entire 15-package ecosystem',
+          '200+ item search without jank',
+          'Animated open/close transitions',
+        ],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.chapter,
+            heading: 'A weekend experiment that snowballed',
+            body:
+                'What started as a simple weekend project to learn how publishing '
+                'a package on pub.dev actually worked turned into something much '
+                'bigger. The dropdown itself was complex — animated, searchable, '
+                'with custom rendering — but the real story is what came next.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.decision,
+            heading: 'Building it properly the first time',
+            body:
+                'Instead of hacking a search bar onto a standard dropdown, I '
+                'built a purpose-built widget with its own animation controller, '
+                'filter state, and overlay management. It handled 200+ items '
+                'smoothly because it was designed for scale from day one.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: 'The SRP violation that grew the ecosystem',
+            body:
+                'While testing the dropdown, I noticed users couldn\'t see why '
+                'results matched — the highlighting logic was trapped inside the '
+                'dropdown widget. Ripping it out as text_highlight_codespark was '
+                'the moment the ecosystem was born: one package naturally split '
+                'into two, then four, then fourteen.',
+          ),
+        ],
+      ),
       pubUrl: 'https://pub.dev/packages/animated_dropdown_search_codespark',
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/animated_dropdown_search_codespark',
     ),
     OpenSourcePackage(
       downloads: 137,
       name: 'advanced_text_input_formatters_codespark',
+      category: PkgCategory.devUtilities,
+      displayName: 'Advanced Input Formatters',
       tagline: 'A toolkit of reusable TextInputFormatters.',
       problem:
           'The same input validation patterns — typing simulation, clipboard '
@@ -478,12 +575,41 @@ abstract final class PortfolioData {
           'clipboard blocking, palindrome enforcement, naming conventions and more.',
       relatedPackages: ['animated_dropdown_search_codespark', 'context_extensions_codespark'],
       tags: ['textinput', 'formatter', 'validation', 'typing'],
+      caseStudy: CaseStudy(
+        summary:
+            'A spawn from the dropdown project. The dropdown needed strict '
+            'input formatting for its search field, and once I had built the '
+            'formatters, I realized they were useful everywhere — clipboard '
+            'blocking, typing simulation, naming conventions.',
+        highlights: ['Collection of 6+ reusable formatters'],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.chapter,
+            heading: 'Naturally extracted from the dropdown',
+            body:
+                'The animated_dropdown_search needed formatting rules for its '
+                'text field — blocking clipboard paste during animations, '
+                'simulating typing for the search highlight, and enforcing '
+                'naming conventions for the filter. Once these existed outside '
+                'the dropdown, they became an independent toolkit.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.decision,
+            heading: 'Published as a standalone set',
+            body:
+                'Instead of burying formatters inside each package that needs '
+                'them, I published them as a collection. Any project can now '
+                'import reusable formatters without pulling in the dropdown.',
+          ),
+        ],
+      ),
       pubUrl: 'https://pub.dev/packages/advanced_text_input_formatters_codespark',
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/advanced_text_input_formatters_codespark',
     ),
     OpenSourcePackage(
       downloads: 23,
       name: 'context_extensions_codespark',
+      category: PkgCategory.devUtilities,
       tagline: 'BuildContext, made ergonomic.',
       problem:
           'Theme, size, navigator, media query, text styles — the same five '
@@ -494,11 +620,42 @@ abstract final class PortfolioData {
           'lookups in every project — packaged them once.',
       relatedPackages: ['date_formatter_codespark', 'advanced_text_input_formatters_codespark'],
       tags: ['buildcontext', 'extensions', 'flutter', 'productivity'],
+      caseStudy: CaseStudy(
+        summary:
+            'Sheer boilerplate fatigue. Every Flutter project starts with the '
+            'same five lookups — MediaQuery, Theme, Navigator, FocusScope, '
+            'TextStyle — each requiring the verbose BuildContext pattern. '
+            'I packed them into extensions once and never wrote them again.',
+        highlights: ['Cuts 5+ lines per lookup to 1', '15+ extension methods'],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.problem,
+            heading: 'Writing the same lookups for the 100th time',
+            body:
+                'MediaQuery.of(context).size.width. Theme.of(context).textTheme. '
+                'FocusScope.of(context).unfocus(). Every project, every screen, '
+                'every day. It\'s not hard code — it\'s just tedious, and '
+                'tedium in bulk slows you down more than any complex logic.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: 'One extension, done forever',
+            body:
+                'context.width, context.textTheme, context.unfocus(), '
+                'context.nextFocus(), context.previousFocus(), '
+                'context.isMobile, context.isTablet, context.isDesktop — '
+                '15+ methods that replace the most common boilerplate patterns. '
+                'Published once, imported everywhere.',
+          ),
+        ],
+      ),
       pubUrl: 'https://pub.dev/packages/context_extensions_codespark',
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/context_extensions_codespark',
     ),
     OpenSourcePackage(
       name: 'icon_to_text_extension_codespark',
+      category: PkgCategory.textUI,
+      displayName: 'Icon to Text',
       downloads: 94,
       tagline: 'IconData as inline text inside RichText.',
       problem:
@@ -510,11 +667,43 @@ abstract final class PortfolioData {
           'text and custom layouts. Flutter has no native solution for this.',
       relatedPackages: ['rich_highlight_text_codespark', 'curved_text_codespark'],
       tags: ['icondata', 'inline-icons', 'rich-text', 'extensions'],
+      caseStudy: CaseStudy(
+        summary:
+            'Built out of pure developer rage. I needed a clickable info icon '
+            'inline inside a paragraph of wrapped text — impossible with '
+            'Flutter\'s native widgets because Row breaks text wrapping. '
+            'The spite-driven solution: convert IconData directly into a '
+            'TextSpan.',
+        highlights: ['Zero text-wrapping breaks', 'Works with any IconData'],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.problem,
+            heading: 'The inline icon problem',
+            body:
+                'Try putting a clickable "info" icon inside a wrapped paragraph '
+                'of text. The obvious approach — Row with IconButton and Text — '
+                'breaks text wrapping entirely. The alternative is a hacky '
+                'combination of WidgetSpans or custom layout builders. Neither '
+                'is clean.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: 'TextSpan is the answer',
+            body:
+                'If the icon could become a TextSpan, it would flow naturally '
+                'inside the text without breaking anything. I built a widget '
+                'that renders any IconData as inline text — it paints the icon '
+                'into a TextSpan using a custom WidgetSpan, preserving natural '
+                'text flow while keeping the icon clickable.',
+          ),
+        ],
+      ),
       pubUrl: 'https://pub.dev/packages/icon_to_text_extension_codespark',
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/icon_to_text_extension_codespark',
     ),
     OpenSourcePackage(
       name: 'internet_quality_codespark',
+      category: PkgCategory.devUtilities,
       downloads: 95,
       tagline: 'Real-time network quality monitoring.',
       problem:
@@ -525,12 +714,43 @@ abstract final class PortfolioData {
           'Measure and display real-time internet connection quality. '
           'Built while debugging upload failures caused by network quality, not code.',
       relatedPackages: [],
+      caseStudy: CaseStudy(
+        summary:
+            'A production debugging session that revealed the real problem '
+            'wasn\'t the code — it was the network. The app had no visibility '
+            'into connection quality, so every upload failure looked like a '
+            'bug. I built a latency-based quality monitor to surface the truth.',
+        highlights: ['Latency-based, not just connected/disconnected'],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.problem,
+            heading: 'Chasing a ghost bug',
+            body:
+                'Users reported upload failures, logs showed no errors, and '
+                'everything worked fine on the office Wi-Fi. After days of '
+                'debugging, the cause was obvious: poor network quality on '
+                'mobile connections. The app only knew if it was "connected" '
+                'or "disconnected" — useless for real-world conditions.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: 'Measuring what matters: latency',
+            body:
+                'Instead of a binary connected/disconnected check, I built a '
+                'latency-based quality analyzer that pings endpoints and '
+                'classifies the connection as excellent, good, fair, or poor '
+                'based on response times. Surface that to the user before they '
+                'hit an upload button.',
+          ),
+        ],
+      ),
       tags: ['internet', 'connectivity', 'network', 'quality'],
       pubUrl: 'https://pub.dev/packages/internet_quality_codespark',
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/internet_quality_codespark',
     ),
     OpenSourcePackage(
       name: 'dual_tone_text_codespark',
+      category: PkgCategory.textUI,
       downloads: 47,
       tagline: 'Sharp dual-tone color splits on multi-line text.',
       problem:
@@ -543,11 +763,43 @@ abstract final class PortfolioData {
           'The package that emerged after a week debugging a ShaderMask bug.',
       relatedPackages: ['curved_text_codespark', 'rich_highlight_text_codespark'],
       tags: ['text', 'shader', 'typography', 'dual-tone'],
+      caseStudy: CaseStudy(
+        summary:
+            'Inspired by a welcome email. A friend showed me a design where '
+            '"WELCOME" had the top half in white and bottom in green — '
+            'impossible with Flutter\'s built-in text rendering. What followed '
+            'was a week-long deep-dive into ShaderMask, blending modes, and '
+            'CustomPainter that produced a focused utility package.',
+        highlights: ['Multi-line support via CustomPainter', 'Vertical, horizontal, radial splits'],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.problem,
+            heading: 'ShaderMask is a single-line lie',
+            body:
+                'Flutter\'s ShaderMask applies a gradient that resets at every '
+                'line boundary, making multi-line dual-tone text impossible '
+                'without custom rendering. A week of debugging ShaderMask '
+                'variants proved it was a dead end for anything beyond single '
+                'lines.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: 'CustomPainter fixed what ShaderMask broke',
+            body:
+                'I built a CustomPainter that treats the entire text block as '
+                'one canvas — painting each glyph individually with the correct '
+                'color from the gradient, crossing line boundaries cleanly. '
+                'The result: sharp dual-tone splits that work on any number of '
+                'lines.',
+          ),
+        ],
+      ),
       pubUrl: 'https://pub.dev/packages/dual_tone_text_codespark',
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/dual_tone_text_codespark',
     ),
     OpenSourcePackage(
       name: 'rich_highlight_text_codespark',
+      category: PkgCategory.textUI,
       downloads: 76,
       tagline: 'Highlight substrings in Text with one call.',
       problem:
@@ -559,11 +811,41 @@ abstract final class PortfolioData {
           'Simple inline highlighting with minimal code.',
       relatedPackages: ['text_highlight_codespark', 'dual_tone_text_codespark'],
       tags: ['text', 'highlight', 'richtext', 'textspan'],
+      caseStudy: CaseStudy(
+        summary:
+            'The zero-boilerplate evolution of text_highlight_codespark. '
+            'The core highlighting logic worked, but still required manual '
+            'TextSpan construction. This package wraps it in a single '
+            'extension method: .highlight("term").',
+        highlights: ['One-method highlighting', 'Supports single, multiple, and regex'],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.problem,
+            heading: 'Even extracted, highlighting was verbose',
+            body:
+                'text_highlight_codespark solved the SRP violation, but using '
+                'it still meant constructing TextSpan arrays manually. Every '
+                'search result page had the same boilerplate — different in '
+                'every project.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: 'An extension method changes everything',
+            body:
+                'By wrapping the core logic in a simple string extension, '
+                'highlighting became a single chained call: Text("hello world")'
+                '.highlight("world", style: ...). No splitting, no spans, '
+                'no boilerplate. The API design was the product.',
+          ),
+        ],
+      ),
       pubUrl: 'https://pub.dev/packages/rich_highlight_text_codespark',
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/rich_highlight_text_codespark',
     ),
     OpenSourcePackage(
       name: 'curved_text_codespark',
+      category: PkgCategory.textUI,
+      isFeatured: true,
       downloads: 43,
       tagline: 'Text rendered along circular, wave, and custom paths.',
       problem:
@@ -575,12 +857,42 @@ abstract final class PortfolioData {
           'paths with animation and interactivity.',
       relatedPackages: ['dual_tone_text_codespark', 'icon_to_text_extension_codespark'],
       tags: ['curved-text', 'path-text', 'animation'],
+      caseStudy: CaseStudy(
+        summary:
+            'Flutter renders text in straight lines — full stop. Curved '
+            'labels, circular text, and path-following typography require a '
+            'custom rendering layer. I built one that places individual glyphs '
+            'along any Path with animation support.',
+        highlights: ['Circular, spiral, wave, elliptical paths', 'Animated along-path movement'],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.problem,
+            heading: 'No curved text in Flutter',
+            body:
+                'Flutter\'s text engine has one mode: straight lines. Curved '
+                'labels, radial text, or any path-following typography is '
+                'completely unsupported. The engine simply does not have the '
+                'concept of placing glyphs along a curve.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: 'Glyph-by-glyph path placement',
+            body:
+                'I built a renderer that extracts individual glyph metrics '
+                'from the text, positions each one along a Path using the '
+                'path\'s tangent at each step, and rotates them to follow the '
+                'curve. Circular, spiral, wave, elliptical — any path works, '
+                'including animation.',
+          ),
+        ],
+      ),
       pubUrl: 'https://pub.dev/packages/curved_text_codespark',
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/curved_text_codespark',
     ),
     OpenSourcePackage(
       downloads: 43,
       name: 'read_more_codespark',
+      category: PkgCategory.textUI,
       tagline: 'Expandable text with a read more toggle.',
       problem:
           'Truncated text with an expand/collapse toggle is stateful '
@@ -591,11 +903,40 @@ abstract final class PortfolioData {
           'Simple, customizable, and reusable across projects.',
       relatedPackages: ['rich_highlight_text_codespark'],
       tags: ['text', 'expandable', 'read-more'],
+      caseStudy: CaseStudy(
+        summary:
+            'The most-rewritten widget in any Flutter project: truncated '
+            'text with a "read more" button. I built it once, properly, '
+            'with animation and flexible line counts.',
+        highlights: ['Animated expand/collapse', 'Configurable line count'],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.problem,
+            heading: 'Writing the same widget for the 10th time',
+            body:
+                'Almost every content-heavy app needs truncated text with a '
+                '"read more" toggle. I had written this boilerplate — '
+                'TextPainter for measuring, state management for toggling, '
+                'InkWell for the button — in at least half a dozen projects. '
+                'Each time, slightly differently.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.decision,
+            heading: 'One reusable widget with animation',
+            body:
+                'I packaged the pattern into a single widget: configure the '
+                'max lines, the toggle label, and the animation duration. '
+                'Smooth expand/collapse via AnimatedCrossFade, zero '
+                'boilerplate in the consuming project.',
+          ),
+        ],
+      ),
       pubUrl: 'https://pub.dev/packages/read_more_codespark',
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/read_more_codespark',
     ),
     OpenSourcePackage(
       name: 'date_formatter_codespark',
+      category: PkgCategory.textUI,
       downloads: 51,
       tagline: 'Date formatting without the intl boilerplate.',
       problem:
@@ -607,12 +948,44 @@ abstract final class PortfolioData {
           'of writing the same intl boilerplate in every project.',
       relatedPackages: ['context_extensions_codespark'],
       tags: ['date', 'formatter', 'localization'],
+      caseStudy: CaseStudy(
+        summary:
+            'The `intl` package works but its API is verbose for everyday '
+            'patterns. I was writing "5 minutes ago" and "29 May" formatting '
+            'in every project — decided to build a zero-dependency DateTime '
+            'extension package that does it in one call.',
+        highlights: ['Zero external dependencies', 'TimeAgo, date formatting, quarter math'],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.problem,
+            heading: 'intl is powerful, but verbose',
+            body:
+                'DateFormat("MMM d, yyyy").format(date) works, but when you\'re '
+                'writing it for the 50th time across projects, you start '
+                'wondering why there isn\'t a date.toTimeAgo() or '
+                'date.isToday(). The intl package handles localization but '
+                'offers no ergonomic extensions for everyday patterns.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: 'DateTime extensions that feel native',
+            body:
+                'Built a pure-Dart extension set: dateTime.toTimeAgo() for '
+                'relative time, dateTime.isToday/isYesterday/isThisWeek for '
+                'checks, dateTime.startOfMonth/endOfQuarter for calendar math, '
+                'and dateTime.toShortDateString() for display. One package, '
+                'zero deps, every pattern I actually use.',
+          ),
+        ],
+      ),
       pubUrl: 'https://pub.dev/packages/date_formatter_codespark',
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/date_formatter_codespark',
     ),
     OpenSourcePackage(
       downloads: 18,
       name: 'text_highlight_codespark',
+      category: PkgCategory.textUI,
+      isFeatured: true,
       tagline: 'Highlight single, multiple, or regex queries in text.',
       problem:
           'Highlighting multiple substrings or regex matches in Flutter text '
@@ -623,6 +996,36 @@ abstract final class PortfolioData {
           'query support.',
       relatedPackages: ['rich_highlight_text_codespark', 'text_comparison_score_codespark'],
       tags: ['text', 'highlight', 'regex'],
+      caseStudy: CaseStudy(
+        summary:
+            'The first extraction. While building animated_dropdown_search, '
+            'the search-result highlighting code was trapped inside the '
+            'dropdown widget — a clear SRP violation. I ripped it out and '
+            'published it as its own package, and the ecosystem was born.',
+        highlights: ['First package extracted from the dropdown', 'Single/multiple/regex highlighting'],
+        sections: [
+          CaseStudySection(
+            kind: CaseStudyKind.decision,
+            heading: 'Spotting the SRP violation',
+            body:
+                'The dropdown\'s search filter highlighted matching letters '
+                'inside each result. It worked well, but the highlighting '
+                'logic had nothing to do with dropdown animation or overlay '
+                'management. It was a general-purpose text utility trapped '
+                'in a widget-specific file.',
+          ),
+          CaseStudySection(
+            kind: CaseStudyKind.breakthrough,
+            heading: 'The extraction that started everything',
+            body:
+                'I pulled the highlighting code into its own package with '
+                'a clean API: pass a string and a query, get back a list of '
+                'TextSpans with highlighted matches. That single decision — '
+                'respecting the boundary between UI and utility — turned a '
+                'one-package weekend experiment into a multi-package ecosystem.',
+          ),
+        ],
+      ),
       pubUrl: 'https://pub.dev/packages/text_highlight_codespark',
       githubUrl: 'https://github.com/Katayath-Sai-Kiran/text_highlight_codespark',
     ),
@@ -680,39 +1083,9 @@ abstract final class PortfolioData {
     ),
   ];
 
-  // ── Technical Writing ────────────────────────────────────────────────────
-  static const List<WritingArticle> articles = [
-    WritingArticle(
-      title: 'Handling Multiline Gradient Rendering in Flutter',
-      summary:
-          'Deep-dive into ShaderMask limitations and how CustomPainter '
-          'resolves multiline gradient consistency.',
-    ),
-    WritingArticle(
-      title: 'Building Resumable Upload Systems in Flutter',
-      summary:
-          'Architecture and implementation of chunk-based resumable upload '
-          'infrastructure with connectivity-aware recovery.',
-    ),
-    WritingArticle(
-      title: 'Designing Reusable Flutter Utility Packages',
-      summary:
-          'API design principles, versioning strategy, and pub.dev publishing '
-          'workflows for open-source Flutter packages.',
-    ),
-    WritingArticle(
-      title: 'Flutter Rendering Lessons with CustomPainter',
-      summary:
-          'Practical rendering techniques, coordinate systems, and performance '
-          'considerations when building with CustomPainter.',
-    ),
-    WritingArticle(
-      title: 'Scaling Open Source Flutter Package Ecosystems',
-      summary:
-          'Strategies for maintaining multiple pub.dev packages, managing '
-          'breaking changes, and building a coherent suite.',
-    ),
-  ];
+  // NOTE: Published writing lives in a single canonical list — `_articles` in
+  // lib/features/home/home_page.dart. The old stale `articles`/`WritingArticle`
+  // duplicate was removed to keep one source of truth.
 
   // ── Computed stats ────────────────────────────────────────────────────────
   static int get totalDownloads =>
